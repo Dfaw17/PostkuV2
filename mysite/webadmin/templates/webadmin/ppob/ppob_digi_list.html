@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% load static %}
+{% load humanize %}
+<html lang="en">
+
+{% include 'webadmin/head.html' %}
+
+<body id="page-top">
+<div id="wrapper">
+    {% include 'webadmin/sidebar.html' %}
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            {% include 'webadmin/navbar.html' %}
+            <div class="container-fluid">
+
+                <h1 class="h3 mb-2 text-gray-800">Tables PPOB Product</h1>
+
+                {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-6">
+                        <h6 class="m-0 font-weight-bold text-warning">DataTables Prepaid Product</h6>
+                    </div>
+
+                    &nbsp;
+
+                    <div class="form-group col-md-2">
+                        <a href="{% url 'sync_ppob_digi'%}" type="button" class="btn btn-info"><i class="fa fa-search">
+                            SYNC</i></a>
+                    </div>
+
+                    <hr>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Price Postku</th>
+                                    <th>Stock</th>
+                                    <th>Seller Name</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                     <th>Price Postku</th>
+                                    <th>Stock</th>
+                                    <th>Seller Name</th>
+                                </tr>
+                                </tfoot>
+
+                                <tbody>
+                                {% for i in ppob %}
+                                <tr>
+                                    <td>{{i.buyer_sku_code}}</td>
+                                    <td>{{i.brand}}</td>
+                                    <td>{{i.category}}</td>
+                                    <td>{{i.product_name}}</td>
+                                    <td>Rp. {{i.price|intcomma}}</td>
+                                    <td>Rp. {{i.price_postku|intcomma}}</td>
+
+                                    {% if i.unlimited_stock == 1 %}
+                                    <td> UNLIMITED</td>
+                                    {% else %}
+                                    <td>{{i.stock}}</td>
+                                    {% endif %}
+
+                                    <td>{{i.seller_name}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% include 'webadmin/footer.html' %}
+    </div>
+</div>
+<!-- Bootstrap core JavaScript-->
+
+{% include 'webadmin/includejs.html' %}
+
+</body>
+
+</html>

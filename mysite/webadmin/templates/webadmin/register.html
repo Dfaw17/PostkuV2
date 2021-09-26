@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+{% include 'webadmin/head.html' %}
+
+<body class="bg-gradient-warning">
+
+<div class="container">
+
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+<!--                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>-->
+                <img width="400" height="428" src="{% static 'postku2.png' %}" alt="">
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                        </div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-user" name="username"
+                                       placeholder="Username">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control form-control-user" name="email"
+                                       placeholder="Email Address">
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="password" class="form-control form-control-user"
+                                           name="password1" placeholder="Password">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="password" class="form-control form-control-user"
+                                           name="password2" placeholder="Repeat Password">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mt-3 login_container">
+                                <input class="btn btn-warning btn-user btn-block" type="submit" value="Register Account">
+                            </div>
+                            {{form.errors}}
+                        </form>
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="{% url 'reset_password' %}">Forgot Password?</a>
+                        </div>
+                        <div class="text-center">
+                            <a class="small" href="{% url 'login' %}">Already have an account? Login!</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+</body>
+
+</html>

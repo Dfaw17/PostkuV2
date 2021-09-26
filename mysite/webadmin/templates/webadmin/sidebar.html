@@ -1,0 +1,172 @@
+{% load static %}
+<ul class="navbar-nav bg-gradient-warning sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <!--            <i class="fas fa-laugh-wink"></i>-->
+        </div>
+        <img width="45" height="45" src="{% static 'bg-postku2.png' %}">
+        <div class="sidebar-brand-text mx-3">POSTKU</div>
+    </a>
+
+    <hr class="sidebar-divider my-0">
+
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home' %}">
+            <img width="23" height="23" src="{% static 'bootstrap-icons/speedometer-wt.svg' %}">
+            &nbsp;
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    <li class="nav-item active">
+        <a class="nav-link" data-toggle="collapse" data-target="#collapseTwo">
+            <img width="23" height="23" src="{% static 'bootstrap-icons/profile-wt.svg' %}">
+            &nbsp;
+            <span>Account</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{% url 'account' %}">Owner</a>
+                <a class="collapse-item" href="{% url 'pegawai' %}">Pegawai</a>
+            </div>
+        </div>
+    </li>
+
+
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'toko' %}">
+            <img width="23" height="23" src="{% static 'bootstrap-icons/shop-wt.svg' %}">
+            &nbsp;
+            <span>Toko</span>
+        </a>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'menu' %}">
+            <img width="23" height="23" src="{% static 'bootstrap-icons/menu-wt.svg' %}">
+            &nbsp;
+            <span>Menu</span>
+        </a>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'absen' %}">
+            <img width="23" height="23" src="{% static 'bootstrap-icons/clipboard-wt.svg' %}">
+            &nbsp;
+            <span>Absensi</span>
+        </a>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" data-toggle="collapse" data-target="#collapseThree">
+            <img width="23" height="23" src="{% static 'bootstrap-icons/dollar-wt.svg' %}">
+            &nbsp;
+            <span>Transaction</span>
+        </a>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{% url 'transaction' %}">All</a>
+                <a class="collapse-item" href="{% url 'transaction_tunai' %}">Tunai</a>
+                <a class="collapse-item" href="{% url 'transaction_qris' %}">QRIS</a>
+                <a class="collapse-item" href="{% url 'transaction_ppob' %}">PPOB</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" data-toggle="collapse" data-target="#collapseFive">
+            <img width="23" height="23" src="{% static 'bootstrap-icons/statistics-wt.svg' %}">
+            &nbsp;
+            <span>Report</span>
+        </a>
+        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{% url 'report_merchant' %}">Report Merchant</a>
+                <a class="collapse-item" href="{% url 'report_menu' %}">Report Menu</a>
+                <a class="collapse-item" href="{% url 'report_pegawai' %}">Report Kasir</a>
+                <a class="collapse-item" href="{% url 'report_disc' %}">Report Promo Toko</a>
+                <a class="collapse-item" href="{% url 'report_table' %}">Report Table Toko</a>
+                <a class="collapse-item" href="{% url 'report_pelanggan' %}">Report Pelanggan Toko</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" data-toggle="collapse" data-target="#collapseFour">
+            <img width="23" height="23" src="{% static 'bootstrap-icons/adson-wt.svg' %}">
+            &nbsp;
+            <span>Adds On</span>
+        </a>
+        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{% url 'kategori_menu' %}">Kategori Menu Toko</a>
+                <a class="collapse-item" href="{% url 'discount' %}">Discount Toko</a>
+                <a class="collapse-item" href="{% url 'pelanggan' %}">Pelanggan Toko</a>
+                <a class="collapse-item" href="{% url 'table' %}">Management Table Toko</a>
+                <a class="collapse-item" href="{% url 'stock' %}">Management Stock Toko</a>
+                <a class="collapse-item" href="{% url 'tipe_order' %}">Tipe Order</a>
+                <a class="collapse-item" href="{% url 'label_order' %}">Label Order</a>
+            </div>
+        </div>
+    </li>
+
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'settlement' %}">
+            <img width="23" height="23" src="{% static 'bootstrap-icons/keys-wt.svg' %}">
+            &nbsp;
+            <span>Settlement</span>
+        </a>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" data-toggle="collapse" data-target="#collapseSeven">
+            <img width="23" height="23" src="{% static 'bootstrap-icons/wallet-wt.svg' %}">
+            &nbsp;
+            <span>Wallets</span>
+        </a>
+        <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{% url 'request_topup' %}">Request Topup</a>
+                <a class="collapse-item" href="{% url 'wallets' %}">Wallets List</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" data-toggle="collapse" data-target="#collapseEight">
+            <img width="23" height="23" src="{% static 'bootstrap-icons/tick-wt.svg' %}">
+            &nbsp;
+            <span>Subscribtion</span>
+        </a>
+        <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{% url 'request_topup' %}">Transaction Subs </a>
+                <a class="collapse-item" href="{% url 'subs' %}">Subscribtion Active</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" data-toggle="collapse" data-target="#collapseSix">
+            <img width="25" height="25" src="{% static 'bootstrap-icons/supply-chain-wt.svg' %}">
+            &nbsp;
+            <span>PPOB</span>
+        </a>
+        <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{% url 'ppob_digi' %}">Prepaid Product </a>
+                <a class="collapse-item" href="#">Postpaid Product</a>
+                <a class="collapse-item" href="#">Transaction PPOB</a>
+            </div>
+        </div>
+    </li>
+    <hr class="sidebar-divider d-none d-md-block">
+
+
+</ul>

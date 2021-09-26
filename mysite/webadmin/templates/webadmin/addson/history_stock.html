@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+{% include 'webadmin/head.html' %}
+
+<body id="page-top">
+<div id="wrapper">
+    {% include 'webadmin/sidebar.html' %}
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            {% include 'webadmin/navbar.html' %}
+
+            <!------ Include the above in your HEAD tag ---------->
+
+            <div class="container mt-5 mb-5">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+
+                        <h3>History Menu {{stock.nama}}</h3>
+                        <ul class="timeline">
+                            {% for i in trx_stock %}
+                            <li>
+                                <!--                                <a href="#">{{i.adjustment_stock}}</a>-->
+                                {% if i.type_adjustment == 1 %}
+                                <a href="#">PENAMBAHAN (+)</a>
+                                {% elif i.type_adjustment == 2 %}
+                                <a href="#">PENGURANGAN (-)</a>
+                                {% elif i.type_adjustment == 3 %}
+                                <a href="#">RESET STOCK (=)</a>
+                                {% else %}
+                                <a href="#">PENJUALAN (-)</a>
+                                {% endif %}
+
+                                <a class="float-right">{{i.created_at}}</a>
+
+                                {% if i.note == None %}
+                                <p> Note : - </p>
+                                {% else %}
+                                <p> Note : {{i.note}} </p>
+                                {% endif %}
+
+                                <p>Stock : <b>{{i.adjustment_stock}}</b></p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        <h5>Current Stock : <b>{{stock.current_stock}}</b></h5>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% include 'webadmin/footer.html' %}
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+</body>
+
+</html>

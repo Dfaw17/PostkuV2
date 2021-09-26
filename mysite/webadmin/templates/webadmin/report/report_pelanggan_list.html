@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+{% load humanize %}
+<html lang="en">
+
+{% include 'webadmin/head.html' %}
+
+<body id="page-top">
+<div id="wrapper">
+    {% include 'webadmin/sidebar.html' %}
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            {% include 'webadmin/navbar.html' %}
+            <div class="container-fluid">
+
+                <h1 class="h3 mb-2 text-gray-800">Tables Report Pelanggan Toko</h1>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-warning">DataTables Example</h6>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Nama Pelanggan</th>
+                                    <th>Nama Toko</th>
+                                    <th>Jumlah Transaksi</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Nama Pelanggan</th>
+                                    <th>Nama Toko</th>
+                                    <th>Jumlah Transaksi</th>
+                                </tr>
+                                </tfoot>
+
+                                <tbody>
+                                {% for i in report_pelanggan %}
+                                <tr>
+                                    <td>{{i.pelanggan__nama}}</td>
+                                    <td>{{i.pelanggan__toko__nama}}</td>
+                                    <td>{{i.jumlah_trx}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% include 'webadmin/footer.html' %}
+    </div>
+</div>
+<!-- Bootstrap core JavaScript-->
+
+{% include 'webadmin/includejs.html' %}
+
+</body>
+
+</html>

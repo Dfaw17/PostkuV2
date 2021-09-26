@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+{% include 'webadmin/head.html' %}
+
+<body id="page-top">
+<div id="wrapper">
+    {% include 'webadmin/sidebar.html' %}
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            {% include 'webadmin/navbar.html' %}
+            <div class="container-fluid">
+                <h1>Detail Toko</h1>
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label>Nama Toko</label>
+                                <textarea class="form-control" readonly="" rows="1">{{toko.nama}}</textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Owner</label>
+                                <textarea class="form-control" readonly="" rows="1">{{owner.username}}</textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Created At</label>
+                                <textarea class="form-control" readonly="" rows="1">{{toko.created_at}}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label>Alamat Toko</label>
+                                <textarea class="form-control" readonly="" rows="3">{{toko.alamat}}</textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div align="left" class="dropdown col-md-3">
+                                <button class="btn btn-primary dropdown-toggle" type="button"
+                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                    Pegawai Toko
+                                </button>
+
+                                <div class="dropdown-menu animated--fade-in"
+                                     aria-labelledby="dropdownMenuButton">
+                                    {% for i in pegawai %}
+                                    <a class="dropdown-item" href="{% url 'detail_pegawai' i.id %}">{{i.username}}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    Kategori Menu Toko
+                                </button>
+                                <div class="dropdown-menu">
+                                    {% for i in kategori_menu %}
+                                    <a class="dropdown-item disabled" href="#">{{i.label}}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                        </div>
+                        &nbsp
+                        &nbsp
+                        &nbsp
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label>Menu Toko</label>
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Gambar</th>
+                                        <th>Nama</th>
+                                        <th>Harga</th>
+                                        <th>Toko</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+
+                                    {% for i in menu %}
+                                    <tbody>
+                                    <tr>
+                                        <td align="center"><img width="70" height="40" src="{{i.menu_pic.url}}"></td>
+                                        <td>{{i.nama}}</td>
+                                        <td>{{i.harga}}</td>
+                                        <td>{{i.toko}}</td>
+                                        <td><a class="btn btn-sm btn-info"
+                                               href="{% url 'detail_menu' i.id %}">Detail</a></td>
+                                    </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'webadmin/footer.html' %}
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+</body>
+
+</html>

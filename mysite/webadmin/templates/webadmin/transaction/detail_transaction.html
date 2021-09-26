@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+{% load static %}
+{% load humanize %}
+<html lang="en">
+
+{% include 'webadmin/head.html' %}
+
+<body id="page-top">
+<div id="wrapper">
+    {% include 'webadmin/sidebar.html' %}
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            {% include 'webadmin/navbar.html' %}
+            <div class="container-fluid">
+                <h1>Detail Transaction</h1>
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label>Reff Code</label>
+                                <textarea class="form-control" readonly="" rows="1">{{transaction.reff_code}}</textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Pegawai</label>
+                                <textarea class="form-control" readonly="" rows="1">{{transaction.pegawai.nama}}</textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Toko</label>
+                                <textarea class="form-control" readonly="" rows="1">{{transaction.toko.nama}}</textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Tanggal Transaksi</label>
+                                <textarea class="form-control" readonly="" rows="1">{{transaction.created_at}}</textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Total Transaksi</label>
+                                <textarea class="form-control" readonly="" rows="1">Rp {{transaction.cart.total_price|intcomma}}</textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Pajak Transaksi</label>
+                                <textarea class="form-control" readonly="" rows="1">Rp {{transaction.pajak|intcomma}}</textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Discount Transaksi</label>
+                                {% if transaction.cart.discount.type == 2 %}
+                                <textarea class="form-control" readonly="" rows="1">{{transaction.cart.discount.nominal}} (%)</textarea>
+                                {% else %}
+                                <textarea class="form-control" readonly="" rows="1">Rp {{transaction.cart.discount.nominal|intcomma}}</textarea>
+                                {% endif %}
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Grand Total </label>
+                                <textarea class="form-control" readonly="" rows="1">Rp {{transaction.grand_total|intcomma}}</textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        &nbsp
+                        &nbsp
+                        &nbsp
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label>Menu Transaction</label>
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Gambar</th>
+                                        <th>nama menu</th>
+                                        <th>Harga</th>
+                                        <th>Qty</th>
+                                        <th>Total Harga</th>
+                                    </tr>
+                                    </thead>
+                                    {% for i in menu %}
+                                    <tbody>
+                                    <tr>
+                                        <td align="center"><img width="70" height="40" src="{{i.menu.menu_pic.url}}"></td>
+                                        <td>{{i.menu}}</td>
+                                        <td>Rp {{i.menu.harga|intcomma}}</td>
+                                        <td>{{i.qty}}</td>
+                                        <td>Rp {{i.price|intcomma}}</td>
+                                    </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'webadmin/footer.html' %}
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+</body>
+
+</html>
