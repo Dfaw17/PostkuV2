@@ -199,6 +199,18 @@ class ProductDIGISerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 
+class KatPPOBProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CategoryPPOB
+        fields = ('__all__')
+
+
+class BrandPPOBProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BrandPPOB
+        fields = ('__all__')
+
+
 class WalletTokoSerializer(serializers.ModelSerializer):
     class Meta:
         model = WalletToko

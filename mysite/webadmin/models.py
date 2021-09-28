@@ -402,6 +402,27 @@ class ProductPPOBDigi(models.Model):
         return self.product_name
 
 
+class CategoryPPOB(models.Model):
+    category_ppob_name = models.CharField(max_length=255, null=True, blank=True)
+    category_ppob_key = models.CharField(max_length=255, null=True, blank=True)
+    category_ppob_image = models.ImageField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.category_ppob_name
+
+
+class BrandPPOB(models.Model):
+    brand_ppob_name = models.CharField(max_length=255, null=True, blank=True)
+    brand_ppob_key = models.CharField(max_length=255, null=True, blank=True)
+    category_ppob = models.ForeignKey(CategoryPPOB, null=True, blank=True, on_delete=models.CASCADE)
+    brand_ppob_image = models.ImageField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.brand_ppob_name
+
+
 class CallbackMobileData(models.Model):
     ref_id = models.CharField(max_length=255, null=True, blank=True)
     status = models.CharField(max_length=255, null=True, blank=True)
@@ -517,16 +538,6 @@ def correct_trx_subs(sender, **kwargs):
         trx_subs.ref_id = "WLT-" + datetime.today().strftime('%Y%m%d%H%M%S')
     else:
         trx_subs.ref_id = trx_subs.ref_id
-
-
-# @receiver(pre_save, sender=PPOBPrepaidTransaction)
-# def correct_trx_ppob(sender, **kwargs):
-#     ppob_prepaid_transaction = kwargs['instance']
-#
-#     if ppob_prepaid_transaction.ref_id == None:
-#         ppob_prepaid_transaction.ref_id = "TRX-PPOB-" + datetime.today().strftime('%Y%m%d%H%M%S')
-#     else:
-#         ppob_prepaid_transaction.ref_id = ppob_prepaid_transaction.ref_id
 
 
 @receiver(pre_save, sender=Settlement)

@@ -1019,10 +1019,23 @@ class Transactions(generics.GenericAPIView):
 
 class TransactionPPOB(generics.GenericAPIView):
     def get(self, request):
-        id_toko = request.data.get('id_toko')
+        id_toko = request.GET.get('id_toko')
+        date1 = request.GET.get('date1')
+        date2 = request.GET.get('date2')
 
-        transaction = PPOBPrepaidTransaction.objects.filter(toko=id_toko).order_by('-created_at')
+        transaction = PPOBPrepaidTransaction.objects.filter(toko=id_toko, is_refunded=None,
+                                                            created_at__range=[date1, date2]).order_by('-created_at')
         data_trx = PPOBPrepaidTransactionSerializer(transaction, many=True).data
+
+        transaction_total = PPOBPrepaidTransaction.objects.filter(toko=id_toko, is_refunded=None,
+                                                                  created_at__range=[date1, date2]).order_by(
+            '-created_at').aggregate(Sum('price_postku'))
+        data_transaction_jumlah = transaction_total.get('price_postku__sum')
+
+        transaction_count = PPOBPrepaidTransaction.objects.filter(toko=id_toko, is_refunded=None,
+                                                                  created_at__range=[date1, date2]).aggregate(
+            Count('id'))
+        data_transaction_count = transaction_count.get('id__count')
 
         msg = "Success found data"
         status_code = status.HTTP_200_OK
@@ -1030,6 +1043,8 @@ class TransactionPPOB(generics.GenericAPIView):
         return JsonResponse({
             'msg': msg,
             'status_code': status_code,
+            'total_transaksi': data_transaction_jumlah,
+            'jumlah_transaksi': data_transaction_count,
             'data': data_trx,
         })
 
@@ -2589,7 +2604,8 @@ class DIGI(generics.GenericAPIView):
             ref_id = datas.get('data')['ref_id']
             buyer_last_saldo = datas.get('data')['buyer_last_saldo']
             price = datas.get('data')['price']
-            trx_ppob = PPOBPrepaidTransaction(ref_id=ref_id,customer_no=customer_no, buyer_sku_code=buyer_sku_code, message=message,
+            trx_ppob = PPOBPrepaidTransaction(ref_id=ref_id, customer_no=customer_no, buyer_sku_code=buyer_sku_code,
+                                              message=message,
                                               status=stat, price=price, buyer_last_saldo=buyer_last_saldo,
                                               price_postku=get_product_price, toko_id=get_wallet_toko, wallet_id=wallet,
                                               product_name=get_product_name, category=get_product_category,
@@ -2616,13 +2632,51 @@ class DIGI(generics.GenericAPIView):
             product = ProductPPOBDigi.objects.filter(category=category, brand=brand)
 
         data_product = ProductDIGISerializer(product, many=True).data
-        msg = "Success Found Data Pelanggan Toko"
+        msg = "Success Found Data Product PPOB"
         status_code = status.HTTP_200_OK
 
         return JsonResponse({
             'msg': msg,
             'status_code': status_code,
             'data': data_product
+        })
+
+
+class KategoriPPOB(generics.GenericAPIView):
+
+    def get(self, request):
+        kat_ppob_product = CategoryPPOB.objects.all()
+
+        data_kat_ppob_product = KatPPOBProductSerializer(kat_ppob_product, many=True).data
+        msg = "Success Found Data Kategori PPOB"
+        status_code = status.HTTP_200_OK
+
+        return JsonResponse({
+            'msg': msg,
+            'status_code': status_code,
+            'data': data_kat_ppob_product
+        })
+
+
+class MerekPPOB(generics.GenericAPIView):
+
+    def get(self, request):
+        category = request.data.get('category')
+        kat = CategoryPPOB.objects.get(category_ppob_key=category)
+
+        if category == None:
+            merekppob = BrandPPOB.objects.all()
+        else:
+            merekppob = BrandPPOB.objects.filter(category_ppob=kat.id)
+
+        data_brand = BrandPPOBProductSerializer(merekppob, many=True).data
+        msg = "Success Found Data Brand PPOB"
+        status_code = status.HTTP_200_OK
+
+        return JsonResponse({
+            'msg': msg,
+            'status_code': status_code,
+            'data': data_brand
         })
 
 

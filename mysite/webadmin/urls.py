@@ -62,7 +62,8 @@ urlpatterns = [
     path('request_topup', views.request_topup, name='request_topup'),
     path('request_topup/<str:id>/', views.request_topup_detail, name='detail_request_topup'),
     path('confirm/request_topup/<str:id>/', views.confirm_request_topup, name='confirm_request_topup'),
-    path('confirm/request_topup_reject/<str:id>/', views.confirm_request_topup_reject, name='confirm_request_topup_reject'),
+    path('confirm/request_topup_reject/<str:id>/', views.confirm_request_topup_reject,
+         name='confirm_request_topup_reject'),
 
     path('report/merchant', views.report_merchant, name='report_merchant'),
     path('report/menu', views.report_menu, name='report_menu'),
@@ -167,6 +168,8 @@ urlpatterns = [
 
     path('api/ppob_digi', api.DIGI.as_view()),
     path('api/ppob_digi/callback', api.DIGICallback.as_view()),
+    path('api/kategori/ppob', api.KategoriPPOB.as_view()),
+    path('api/brand/ppob', api.MerekPPOB.as_view()),
 
     path('api/stock', api.StockMenus.as_view()),
     path('api/stock/trx', api.TrxStock.as_view()),
