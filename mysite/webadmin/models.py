@@ -211,7 +211,7 @@ class Menu(models.Model):
 class ChanelPayment(models.Model):
     jenis_pembayaran = models.CharField(max_length=255, null=True, blank=True)
     nama = models.CharField(max_length=255, null=True, blank=True)
-    nomer = models.BigIntegerField(null=True, blank=True)
+    nomer = models.CharField(max_length=255,null=True, blank=True)
     logo = models.ImageField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

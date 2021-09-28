@@ -281,3 +281,9 @@ class BankSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bank
         fields = ('__all__')
+
+
+class ChannelPaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChanelPayment
+        fields = ('__all__')

@@ -2375,6 +2375,22 @@ class TipeOrders(generics.GenericAPIView):
         })
 
 
+class ChannelPayments(generics.GenericAPIView):
+    def get(self, request):
+
+        channel_peyment = ChanelPayment.objects.all()
+        data_channel_peyment = ChannelPaymentSerializer(channel_peyment, many=True).data
+
+        msg = "Success found data"
+        status_code = status.HTTP_200_OK
+
+        return JsonResponse({
+            'msg': msg,
+            'status_code': status_code,
+            'data': data_channel_peyment
+        })
+
+
 class LabelsOrder(generics.GenericAPIView):
     def get(self, request):
         label_order = LabelOrder.objects.all()

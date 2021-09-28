@@ -192,4 +192,6 @@ urlpatterns = [
     path('api/v2/cart', api.CartAPIV2.as_view()),
     path('api/v2/cartitem', api.CartItemAPIV2.as_view()),
 
+    path('api/channel_payment', api.ChannelPayments.as_view()),
+
 ]
