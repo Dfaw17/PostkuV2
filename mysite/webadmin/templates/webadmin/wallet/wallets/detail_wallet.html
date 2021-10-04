@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+{% load static %}
+{% load humanize %}
+<html lang="en">
+
+{% include 'webadmin/head.html' %}
+
+<body id="page-top">
+<div id="wrapper">
+    {% include 'webadmin/sidebar.html' %}
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            {% include 'webadmin/navbar.html' %}
+            <div class="container-fluid">
+                <h1>Detail Wallet</h1>
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="text-center">
+                            <img width="250" height="250" src="{{wallet.toko.logo.url}}" alt="" class="img-thumbnail">
+                        </div>
+
+                        &nbsp;
+
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label>Wallet Code</label>
+                                <textarea class="form-control" readonly="" rows="1">{{wallet.wallet_code}}</textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Toko</label>
+                                <textarea class="form-control" readonly="" rows="1">{{wallet.toko.nama}}</textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Balance Wallet</label>
+                                <textarea class="form-control" readonly=""
+                                          rows="1">Rp. {{wallet.balance|intcomma}}</textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Created At</label>
+                                <textarea class="form-control" readonly="" rows="1">{{wallet.created_at}}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label>Alamat Toko</label>
+                                <textarea class="form-control" readonly="" rows="3">{{wallet.toko.alamat}}, {{wallet.toko.add_kel_des}}, {{wallet.toko.add_kecamatan}}, {{wallet.toko.add_kab_kot}}, {{wallet.toko.add_provinsi}}</textarea>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <p>
+                            <button class="btn btn-warning" type="button" data-toggle="collapse"
+                                    data-target="#collapseExample" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                History Wallet
+                            </button>
+                        </p>
+
+                        <div class="collapse" id="collapseExample">
+                            <div class="row">
+                                <div class="col-md-6 offset-md-3">
+
+                                    <h3>History Transaction Wallet</h3>
+                                    <h6>( {{wallet.wallet_code}} )</h6>
+                                    &nbsp;
+                                    <ul class="timeline">
+                                        {% for i in wallet_history %}
+                                        <li>
+                                            {% if i.type == 1 %}
+                                            <a href="#">Debit (+)</a>
+                                            {% elif i.type == 2 %}
+                                            <a href="#">Credit (-)</a>
+                                            {% else %}
+                                            <a href="#">Refund (+)</a>
+                                            {% endif %}
+                                            &nbsp;
+
+                                            <a class="float-right">{{i.created_at}}</a>
+                                            &nbsp;
+
+                                            {% if i.note == None %}
+                                            <p> Note :</p>
+                                            <p class="border"> - </p>
+                                            {% else %}
+                                            <p> Note : </p>
+                                            <p class="border"> {{i.note}} </p>
+                                            {% endif %}
+                                            &nbsp;
+
+                                            <p>Balance : <b>Rp. {{i.adjustment_balance|intcomma}}</b></p>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <hr>
+                                    <h5>Current Balance : <b>Rp. {{wallet.balance|intcomma}}</b></h5>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'webadmin/footer.html' %}
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+</body>
+
+</html>
