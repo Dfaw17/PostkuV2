@@ -1499,7 +1499,7 @@ class CreateSettlement(generics.GenericAPIView):
         })
 
     def get(self, request):
-        id_toko = request.data.get('id_toko')
+        id_toko = request.GET.get('id_toko')
 
         settlement = Transaction.objects.filter(toko=id_toko, is_settelement=0, payment_type_id=2)
         data_settlement = TransactionSerializer(settlement, many=True).data
@@ -1521,8 +1521,8 @@ class CreateSettlement(generics.GenericAPIView):
 class Historyettlement(generics.GenericAPIView):
 
     def get(self, request):
-        id_toko = request.data.get('id_toko')
-        status_trx = request.data.get('status_trx')
+        id_toko = request.GET.get('id_toko')
+        status_trx = request.GET.get('status_trx')
         print(status_trx)
 
         if status_trx == '1':
@@ -2635,8 +2635,8 @@ class DIGI(generics.GenericAPIView):
         })
 
     def get(self, request):
-        category = request.data.get('category')
-        brand = request.data.get('brand')
+        category = request.GET.get('category')
+        brand = request.GET.get('brand')
 
         if category == None and brand == None:
             product = ProductPPOBDigi.objects.all()
@@ -2677,7 +2677,7 @@ class KategoriPPOB(generics.GenericAPIView):
 class MerekPPOB(generics.GenericAPIView):
 
     def get(self, request):
-        category = request.data.get('category')
+        category = request.GET.get('category')
         kat = CategoryPPOB.objects.get(category_ppob_key=category)
 
         if category == None:
@@ -2988,7 +2988,7 @@ class DIGICallback(generics.GenericAPIView):
         })
 
     def get(self, request):
-        ref_id = request.data.get('ref_id')
+        ref_id = request.GET.get('ref_id')
 
         callback = CallDIGI.objects.filter(ref_id=ref_id).last()
         data = DIGICallbackSerializer(callback, many=False).data
@@ -3032,7 +3032,7 @@ class WalletsToko(generics.GenericAPIView):
         })
 
     def get(self, request):
-        toko = request.data.get('toko')
+        toko = request.GET.get('toko')
 
         try:
             wallets = WalletToko.objects.get(toko_id=toko)
@@ -3087,7 +3087,7 @@ class TrxWallets(generics.GenericAPIView):
         })
 
     def get(self, request):
-        wallet_id = request.data.get('wallet_id')
+        wallet_id = request.GET.get('wallet_id')
 
         try:
             history_wallets = TrxWallet.objects.filter(wallet_id=wallet_id).order_by('-id')
@@ -3108,8 +3108,8 @@ class TrxWallets(generics.GenericAPIView):
 
 class HistoryTopupWallets(generics.GenericAPIView):
     def get(self, request):
-        wallet_id = request.data.get('wallet_id')
-        status_confirm = request.data.get('status_confirm')
+        wallet_id = request.GET.get('wallet_id')
+        status_confirm = request.GET.get('status_confirm')
 
         if status_confirm == '1':
             confirm_topup = ConfirmWallet.objects.filter(wallet_id=wallet_id, status_confirm=1)
