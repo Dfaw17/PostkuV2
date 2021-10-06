@@ -339,17 +339,21 @@ class UpdateProfilePegawai(generics.GenericAPIView):
         address = request.data.get('address')
         nama = request.data.get('nama')
 
+        toko = Toko.objects.get(id=id_toko)
+        owner = toko.account_set.get(is_owner=1)
+        subs_date = owner.subs_date.strftime('%Y-%m-%d-%H:%M:%S')
+
         check = c.execute(f'SELECT * FROM webadmin_account_toko WHERE account_id="{id_user}"')
         if check == 1:
             c.execute(f'UPDATE webadmin_account_toko SET toko_id="{id_toko}" WHERE account_id="{id_user}" ')
             c.execute(
-                f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0" WHERE id="{id_user}"')
+                f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0", is_subs={owner.is_subs}, subs_date="{subs_date}" WHERE id="{id_user}"')
             detail_user = Account.objects.get(id=id_user)
             data_detail_akun = ExtendsUserSerializer(detail_user).data
         else:
             c.execute(f'INSERT INTO webadmin_account_toko (account_id,toko_id) VALUES ("{id_user}","{id_toko}")')
             c.execute(
-                f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0" WHERE id="{id_user}"')
+                f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0", is_subs={owner.is_subs}, subs_date="{subs_date}" WHERE id="{id_user}"')
             detail_user = Account.objects.get(id=id_user)
             data_detail_akun = ExtendsUserSerializer(detail_user).data
 
@@ -377,109 +381,6 @@ class DetailAccount(generics.GenericAPIView):
             'msg': msg,
             'status_code': status_code,
             'data': data_akun
-        })
-
-
-class CRUDToko(generics.GenericAPIView):
-
-    def get(self, request):
-
-        try:
-            id_owner = request.GET.get('id_owner')
-            account = Account.objects.get(id=id_owner)
-            toko = account.toko.filter(is_active=1)
-            data_toko_akun = TokoSerializer(toko, many=True).data
-            msg = "Success found data"
-            status_code = status.HTTP_200_OK
-        except ObjectDoesNotExist:
-            msg = "Incorrect id_uder"
-            data_toko_akun = "Data Not Found"
-            status_code = status.HTTP_404_NOT_FOUND
-
-        return JsonResponse({
-            'msg': msg,
-            'status_code': status_code,
-            'data': data_toko_akun
-        })
-
-    def post(self, request):
-        c = connection.cursor()
-        id_user = request.data.get('id_user')
-
-        serializer = TokoSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        id_toko = serializer.data.get('id')
-        c.execute(f'INSERT INTO webadmin_account_toko (account_id,toko_id) VALUES ("{id_user}","{id_toko}")')
-
-        return JsonResponse({
-            'msg': "data successfull created",
-            'status_code': status.HTTP_201_CREATED,
-            'data': serializer.data,
-        })
-
-    def put(self, request):
-
-        c = connection.cursor()
-        id_toko = request.data.get('id_toko')
-
-        try:
-            c.execute(f'UPDATE webadmin_toko SET is_active=0 WHERE id="{id_toko}"')
-            msg = "Data successfull deleted"
-        except ObjectDoesNotExist:
-            msg = "Data Toko Nof Found"
-
-        return JsonResponse({
-            'msg': msg,
-            'status_code': status.HTTP_200_OK,
-        })
-
-    def patch(self, request):
-
-        id_toko = request.data.get('id_toko')
-        toko = Toko.objects.get(id=id_toko)
-
-        toko.nama = request.data.get("nama", toko.nama)
-        toko.alamat = request.data.get("alamat", toko.alamat)
-        toko.logo = request.data.get("logo", toko.logo)
-        toko.kategori = request.data.get("kategori", toko.kategori)
-        toko.add_provinsi = request.data.get("add_provinsi", toko.add_provinsi)
-        toko.add_kab_kot = request.data.get("add_kab_kot", toko.add_kab_kot)
-        toko.add_kecamatan = request.data.get("add_kecamatan", toko.add_kecamatan)
-        toko.add_kel_des = request.data.get("add_kel_des", toko.add_kel_des)
-        toko.is_active = request.data.get("is_active", toko.is_active)
-
-        toko.save()
-        serializer = TokoSerializer(toko)
-
-        return JsonResponse({
-            'msg': 'Data successfull updated',
-            'status_code': status.HTTP_200_OK,
-            'data': serializer.data,
-        })
-
-
-class DetailToko(generics.GenericAPIView):
-    def get(self, request, id):
-        try:
-            toko = Toko.objects.get(id=id)
-            data_toko_akun = TokoSerializer(toko).data
-
-            pegawai = toko.account_set.filter(is_owner=0).values()
-
-            msg = "Success found data"
-            status_code = status.HTTP_200_OK
-        except ObjectDoesNotExist:
-            msg = "Incorrect id"
-            data_toko_akun = "Data Not Found"
-            status_code = status.HTTP_404_NOT_FOUND
-
-        return JsonResponse({
-            'msg': msg,
-            'status_code': status_code,
-            'data': data_toko_akun,
-            'pegawai_toko': list(pegawai),
         })
 
 
@@ -2377,7 +2278,6 @@ class TipeOrders(generics.GenericAPIView):
 
 class ChannelPayments(generics.GenericAPIView):
     def get(self, request):
-
         channel_peyment = ChanelPayment.objects.all()
         data_channel_peyment = ChannelPaymentSerializer(channel_peyment, many=True).data
 
