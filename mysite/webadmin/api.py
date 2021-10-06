@@ -2833,23 +2833,6 @@ class DetailBanner(generics.GenericAPIView):
         })
 
 
-class DetailArticles(generics.GenericAPIView):
-    def get(self, request, id):
-        article = Article.objects.get(id=id)
-        article.count_seen = article.count_seen + 1
-        article.save()
-
-        data_article = DetailArticleSerializer(article).data
-        msg = "Success found data"
-        status_code = status.HTTP_200_OK
-
-        return JsonResponse({
-            'msg': msg,
-            'status_code': status_code,
-            'data': data_article
-        })
-
-
 class TrxStockDetail(generics.GenericAPIView):
     def get(self, request, id):
         trx_stock = TrxStockMenu.objects.get(id=id)
@@ -3126,24 +3109,3 @@ class Subs(generics.GenericAPIView):
             'msg': msg,
         })
 
-
-class Articles(generics.GenericAPIView):
-
-    def get(self, request):
-        paginator = PageNumberPagination()
-        paginator.page_size = 2
-
-        article = Article.objects.filter(is_active=1)
-        result_page = paginator.paginate_queryset(article, request)
-
-        data_article = ListArticleSerializer(result_page, many=True, ).data
-        msg = "Success Found Data Article"
-        status_code = status.HTTP_200_OK
-
-        return JsonResponse({
-            'msg': msg,
-            'status_code': status_code,
-            'next_link': paginator.get_next_link(),
-            'previous__link': paginator.get_previous_link(),
-            'data': data_article,
-        })
