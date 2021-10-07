@@ -3,7 +3,7 @@ from django.contrib.auth import views as auth_views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from . import views
 from . import api
-from .apis import toko, articles, menu
+from .apis import toko, articles, menu, kategori_menu
 
 urlpatterns = [
     # ======================================WEB================================
@@ -102,8 +102,8 @@ urlpatterns = [
     path('api/menu', menu.CRUDMenu.as_view()),
     path('api/menu/detail/<str:id>/', menu.DetailMenu.as_view()),
 
-    path('api/kategorimenu', api.CRUDKategoriMenu.as_view()),
-    path('api/kategorimenu/detail/<str:id>/', api.DetailKategoriMenu.as_view()),
+    path('api/kategorimenu', kategori_menu.CRUDKategoriMenu.as_view()),
+    path('api/kategorimenu/detail/<str:id>/', kategori_menu.DetailKategoriMenu.as_view()),
 
     path('api/cart', api.CartAPI.as_view()),
     path('api/cart/detail/<str:id>/', api.CartAPIDetail.as_view()),
