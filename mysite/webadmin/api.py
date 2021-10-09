@@ -384,19 +384,6 @@ class DetailAccount(generics.GenericAPIView):
         })
 
 
-class CreateSaranKritik(generics.GenericAPIView):
-    def post(self, request):
-        serializer = KritikSaranSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return JsonResponse({
-            'msg': "Data successfull created",
-            'status_code': status.HTTP_201_CREATED,
-            'data': serializer.data,
-        })
-
-
 class CartAPIV2(generics.GenericAPIView):
     def post(self, request):
         data_menu = request.data.get('menu')

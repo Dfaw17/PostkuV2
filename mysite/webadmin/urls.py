@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from . import views
 from . import api
 from .apis import toko, articles, menu, kategori_menu, stock_menu, absen, man_table, discount, service_fee, pajak, \
-    pelanggan
+    pelanggan, kritik_saran
 
 urlpatterns = [
     # ======================================WEB================================
@@ -189,7 +189,7 @@ urlpatterns = [
     path('api/beranda/<str:id>/', api.Beranda.as_view()),
     path('api/banner/<str:id>/', api.DetailBanner.as_view()),
     path('api/laporanbisnis', api.LaporanBisnis.as_view()),
-    path('api/kritiksaran', api.CreateSaranKritik.as_view()),
+    path('api/kritiksaran', kritik_saran.CreateSaranKritik.as_view()),
 
     path('api/v2/cart', api.CartAPIV2.as_view()),
     path('api/v2/cartitem', api.CartItemAPIV2.as_view()),
