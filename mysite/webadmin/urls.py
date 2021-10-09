@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from . import views
 from . import api
 from .apis import toko, articles, menu, kategori_menu, stock_menu, absen, man_table, discount, service_fee, pajak, \
-    pelanggan, kritik_saran, beranda, laporan_bisnis, label_order, tipe_order
+    pelanggan, kritik_saran, beranda, laporan_bisnis, label_order, tipe_order, transaction
 
 urlpatterns = [
     # ======================================WEB================================
@@ -131,8 +131,8 @@ urlpatterns = [
     path('api/servicefee', service_fee.CRUDServiceFee.as_view()),
     path('api/servicefee/detail/<str:id>/', service_fee.DetailServiceFee.as_view()),
 
-    path('api/transaction', api.Transactions.as_view()),
-    path('api/transaction/detail/<str:id>/', api.DetailTransactions.as_view()),
+    path('api/transaction', transaction.Transactions.as_view()),
+    path('api/transaction/detail/<str:id>/', transaction.DetailTransactions.as_view()),
     path('api/transaction/ppob', api.TransactionPPOB.as_view()),
 
     path('api/absen', absen.Absen.as_view()),
