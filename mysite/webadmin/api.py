@@ -1367,7 +1367,7 @@ class DIGI(generics.GenericAPIView):
             url = "https://api.digiflazz.com/v1/transaction"
             headers = {'content-type': 'application/json'}
 
-            datas = requests.post(url, data=json.dumps(data), headers=headers).json()
+            datas = requests.post(url, data=json.dumps(data), headers=headers).json().get('data')
             print(datas)
 
             # create ppob trx
