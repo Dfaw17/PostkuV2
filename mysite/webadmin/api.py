@@ -461,6 +461,23 @@ class CartItem(generics.GenericAPIView):
         })
 
 
+class DetailTransactionPPOB(generics.GenericAPIView):
+    def get(self, request):
+        ref_id = request.GET.get('ref_id')
+
+        transaction = PPOBPrepaidTransaction.objects.get(ref_id=ref_id)
+        data_trx = PPOBPrepaidTransactionSerializer(transaction).data
+
+        msg = "Success found data"
+        status_code = status.HTTP_200_OK
+
+        return JsonResponse({
+            'msg': msg,
+            'status_code': status_code,
+            'data': data_trx,
+        })
+
+
 class TransactionPPOB(generics.GenericAPIView):
     def get(self, request):
         id_toko = request.GET.get('id_toko')
@@ -1367,7 +1384,7 @@ class DIGI(generics.GenericAPIView):
             url = "https://api.digiflazz.com/v1/transaction"
             headers = {'content-type': 'application/json'}
 
-            datas = requests.post(url, data=json.dumps(data), headers=headers).json().get('data')
+            datas = requests.post(url, data=json.dumps(data), headers=headers).json()
             print(datas)
 
             # create ppob trx
@@ -1386,7 +1403,7 @@ class DIGI(generics.GenericAPIView):
         return JsonResponse({
             'msg': msg,
             'status_code': status_code,
-            'data': datas
+            'data': datas.get('data')
         })
 
     def get(self, request):

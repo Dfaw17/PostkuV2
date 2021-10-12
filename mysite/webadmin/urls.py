@@ -134,6 +134,7 @@ urlpatterns = [
     path('api/transaction', transaction.Transactions.as_view()),
     path('api/transaction/detail/<str:id>/', transaction.DetailTransactions.as_view()),
     path('api/transaction/ppob', api.TransactionPPOB.as_view()),
+    path('api/transaction/ppob/detail', api.DetailTransactionPPOB.as_view()),
 
     path('api/absen', absen.Absen.as_view()),
     path('api/absen/check/<str:id>/', absen.CheckAbsen.as_view()),
