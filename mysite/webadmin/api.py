@@ -149,6 +149,7 @@ class UpdateProfilePegawai(generics.GenericAPIView):
         akun.phone = request.data.get("phone", akun.phone)
         akun.toko.clear()
         akun.toko.add(toko)
+        akun.is_owner = False
         akun.address = request.data.get("address", akun.address)
         akun.nama = request.data.get("nama", akun.nama)
         akun.profile_pic = request.data.get("profile_pic", akun.profile_pic)
