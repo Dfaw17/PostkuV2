@@ -148,21 +148,35 @@ class UpdateProfilePegawai(generics.GenericAPIView):
 
         toko = Toko.objects.get(id=id_toko)
         owner = toko.account_set.get(is_owner=1)
-        subs_date = owner.subs_date.strftime('%Y-%m-%d-%H:%M:%S')
-
-        check = c.execute(f'SELECT * FROM webadmin_account_toko WHERE account_id="{id_user}"')
-        if check == 1:
-            c.execute(f'UPDATE webadmin_account_toko SET toko_id="{id_toko}" WHERE account_id="{id_user}" ')
-            c.execute(
-                f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0", is_subs={owner.is_subs}, subs_date="{subs_date}" WHERE id="{id_user}"')
-            detail_user = Account.objects.get(id=id_user)
-            data_detail_akun = ExtendsUserSerializer(detail_user).data
-        else:
-            c.execute(f'INSERT INTO webadmin_account_toko (account_id,toko_id) VALUES ("{id_user}","{id_toko}")')
-            c.execute(
-                f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0", is_subs={owner.is_subs}, subs_date="{subs_date}" WHERE id="{id_user}"')
-            detail_user = Account.objects.get(id=id_user)
-            data_detail_akun = ExtendsUserSerializer(detail_user).data
+        try:
+            subs_date = owner.subs_date.strftime('%Y-%m-%d-%H:%M:%S')
+            check = c.execute(f'SELECT * FROM webadmin_account_toko WHERE account_id="{id_user}"')
+            if check == 1:
+                c.execute(f'UPDATE webadmin_account_toko SET toko_id="{id_toko}" WHERE account_id="{id_user}" ')
+                c.execute(
+                    f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0", is_subs={owner.is_subs}, subs_date="{subs_date}" WHERE id="{id_user}"')
+                detail_user = Account.objects.get(id=id_user)
+                data_detail_akun = ExtendsUserSerializer(detail_user).data
+            else:
+                c.execute(f'INSERT INTO webadmin_account_toko (account_id,toko_id) VALUES ("{id_user}","{id_toko}")')
+                c.execute(
+                    f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0", is_subs={owner.is_subs}, subs_date="{subs_date}" WHERE id="{id_user}"')
+                detail_user = Account.objects.get(id=id_user)
+                data_detail_akun = ExtendsUserSerializer(detail_user).data
+        except:
+            check = c.execute(f'SELECT * FROM webadmin_account_toko WHERE account_id="{id_user}"')
+            if check == 1:
+                c.execute(f'UPDATE webadmin_account_toko SET toko_id="{id_toko}" WHERE account_id="{id_user}" ')
+                c.execute(
+                    f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0", is_subs={owner.is_subs} WHERE id="{id_user}"')
+                detail_user = Account.objects.get(id=id_user)
+                data_detail_akun = ExtendsUserSerializer(detail_user).data
+            else:
+                c.execute(f'INSERT INTO webadmin_account_toko (account_id,toko_id) VALUES ("{id_user}","{id_toko}")')
+                c.execute(
+                    f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0", is_subs={owner.is_subs} WHERE id="{id_user}"')
+                detail_user = Account.objects.get(id=id_user)
+                data_detail_akun = ExtendsUserSerializer(detail_user).data
 
         return JsonResponse({
             'msg': 'Data successfull updated',
