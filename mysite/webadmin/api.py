@@ -139,50 +139,29 @@ class UpdateProfileOwner(generics.GenericAPIView):
 class UpdateProfilePegawai(generics.GenericAPIView):
 
     def put(self, request):
-        c = connection.cursor()
         id_user = request.data.get('id_user')
-        id_toko = request.data.get('id_toko')
-        phone = request.data.get('phone')
-        address = request.data.get('address')
-        nama = request.data.get('nama')
+        toko = request.data.get('id_toko')
 
-        toko = Toko.objects.get(id=id_toko)
-        owner = toko.account_set.get(is_owner=1)
-        try:
-            subs_date = owner.subs_date.strftime('%Y-%m-%d-%H:%M:%S')
-            check = c.execute(f'SELECT * FROM webadmin_account_toko WHERE account_id="{id_user}"')
-            if check == 1:
-                c.execute(f'UPDATE webadmin_account_toko SET toko_id="{id_toko}" WHERE account_id="{id_user}" ')
-                c.execute(
-                    f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0", is_subs={owner.is_subs}, subs_date="{subs_date}" WHERE id="{id_user}"')
-                detail_user = Account.objects.get(id=id_user)
-                data_detail_akun = ExtendsUserSerializer(detail_user).data
-            else:
-                c.execute(f'INSERT INTO webadmin_account_toko (account_id,toko_id) VALUES ("{id_user}","{id_toko}")')
-                c.execute(
-                    f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0", is_subs={owner.is_subs}, subs_date="{subs_date}" WHERE id="{id_user}"')
-                detail_user = Account.objects.get(id=id_user)
-                data_detail_akun = ExtendsUserSerializer(detail_user).data
-        except:
-            check = c.execute(f'SELECT * FROM webadmin_account_toko WHERE account_id="{id_user}"')
-            if check == 1:
-                c.execute(f'UPDATE webadmin_account_toko SET toko_id="{id_toko}" WHERE account_id="{id_user}" ')
-                c.execute(
-                    f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0", is_subs={owner.is_subs} WHERE id="{id_user}"')
-                detail_user = Account.objects.get(id=id_user)
-                data_detail_akun = ExtendsUserSerializer(detail_user).data
-            else:
-                c.execute(f'INSERT INTO webadmin_account_toko (account_id,toko_id) VALUES ("{id_user}","{id_toko}")')
-                c.execute(
-                    f'UPDATE webadmin_account SET phone="{phone}", address="{address}", nama="{nama}", is_owner="0", is_subs={owner.is_subs} WHERE id="{id_user}"')
-                detail_user = Account.objects.get(id=id_user)
-                data_detail_akun = ExtendsUserSerializer(detail_user).data
+        toko_owner = Toko.objects.get(id=toko)
+        owner = toko_owner.account_set.get(is_owner=1)
+
+        akun = Account.objects.get(id=id_user)
+        akun.phone = request.data.get("phone", akun.phone)
+        akun.toko.clear()
+        akun.toko.add(toko)
+        akun.address = request.data.get("address", akun.address)
+        akun.nama = request.data.get("nama", akun.nama)
+        akun.profile_pic = request.data.get("profile_pic", akun.profile_pic)
+        akun.is_subs = owner.is_subs
+        akun.subs_date = owner.subs_date
+        akun.save()
+        serializer = ExtendsUserSerializer(akun)
 
         return JsonResponse({
-            'msg': 'Data successfull updated',
-            'status_code': status.HTTP_200_OK,
-            'data': data_detail_akun,
-        })
+                'msg': 'Data successfull updated',
+                'status_code': status.HTTP_200_OK,
+                'data': serializer.data,
+            })
 
 
 class DetailAccount(generics.GenericAPIView):
