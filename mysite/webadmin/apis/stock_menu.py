@@ -42,7 +42,7 @@ class StockMenus(generics.GenericAPIView):
         })
 
     def delete(self, request):
-        id_menu = request.GET.get('id_menu')
+        id_menu = request.objects.get('menu')
         stock = StockMenu.objects.get(menu_id=id_menu)
         stock.delete()
 
