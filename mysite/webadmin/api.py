@@ -159,10 +159,10 @@ class UpdateProfilePegawai(generics.GenericAPIView):
         serializer = ExtendsUserSerializer(akun)
 
         return JsonResponse({
-                'msg': 'Data successfull updated',
-                'status_code': status.HTTP_200_OK,
-                'data': serializer.data,
-            })
+            'msg': 'Data successfull updated',
+            'status_code': status.HTTP_200_OK,
+            'data': serializer.data,
+        })
 
 
 class DetailAccount(generics.GenericAPIView):
@@ -202,8 +202,6 @@ class CartAPIV2(generics.GenericAPIView):
             })
             cart_item.is_valid(raise_exception=True)
             cart_item.save()
-
-        print(cart.data.get('id'))
 
         cart = Cart.objects.get(id=cart.data.get('id'))
         data_cart = CartSerializer(cart).data
@@ -269,6 +267,22 @@ class CartAPIV2(generics.GenericAPIView):
             cart.service_fee.add(i)
             cart.save()
         cart.save()
+
+        data_menu = request.data.get('menu')
+        for i in data_menu:
+            data = CartItems.objects.get(id=i.get('id_cart_item'))
+            if i.get('qty') == 0:
+                data.delete()
+            else:
+                try:
+                    discount = Discount.objects.get(id=i.get('disc'))
+                    data.discount = discount
+                except:
+                    discount = None
+                    data.discount = discount
+                    data.total_disc = 0
+                data.qty = i.get('qty')
+                data.save()
 
         return JsonResponse({
             'msg': "Data successfull updated",
@@ -729,9 +743,6 @@ class ReportByLabelOrder(generics.GenericAPIView):
             'status_code': status_code,
             'data': list(report_order_label),
         })
-
-
-
 
 
 class CreateSettlement(generics.GenericAPIView):

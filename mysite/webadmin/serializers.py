@@ -76,6 +76,12 @@ class TokoSerializer(serializers.ModelSerializer):
 
 
 class MenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Menu
+        fields = ('__all__')
+
+
+class CustomMenuSerializer(serializers.ModelSerializer):
     kategori = serializers.SlugRelatedField(read_only=True, slug_field='label')
 
     class Meta:

@@ -14,12 +14,12 @@ class CRUDMenu(generics.GenericAPIView):
 
         if id_kategori == None:
             menu = Menu.objects.filter(toko=id_toko)
-            data_menu_toko = MenuSerializer(menu, many=True).data
+            data_menu_toko = CustomMenuSerializer(menu, many=True).data
             msg = "Success found data"
             status_code = status.HTTP_200_OK
         else:
             menu = Menu.objects.filter(toko=id_toko, kategori=id_kategori)
-            data_menu_toko = MenuSerializer(menu, many=True).data
+            data_menu_toko = CustomMenuSerializer(menu, many=True).data
             msg = "Success found data"
             status_code = status.HTTP_200_OK
 
@@ -82,7 +82,7 @@ class DetailMenu(generics.GenericAPIView):
     def get(self, request, id):
         try:
             menu = Menu.objects.get(id=id)
-            data_menu = MenuSerializer(menu).data
+            data_menu = CustomMenuSerializer(menu).data
             msg = "Success found data"
             status_code = status.HTTP_200_OK
         except ObjectDoesNotExist:
