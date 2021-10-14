@@ -42,8 +42,8 @@ class StockMenus(generics.GenericAPIView):
         })
 
     def delete(self, request):
-        id_stock = request.GET.get('id_stock')
-        stock = StockMenu.objects.get(id=id_stock)
+        id_menu = request.GET.get('id_menu')
+        stock = StockMenu.objects.get(menu_id=id_menu)
         stock.delete()
 
         msg = "Success Inactive Stock"
