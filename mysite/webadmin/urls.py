@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from . import views
 from . import api
 from .apis import toko, articles, menu, kategori_menu, stock_menu, absen, man_table, discount, service_fee, pajak, \
-    pelanggan, kritik_saran, beranda, laporan_bisnis, label_order, tipe_order, transaction
+    pelanggan, kritik_saran, beranda, laporan_bisnis, label_order, tipe_order, transaction, qris
 
 urlpatterns = [
     # ======================================WEB================================
@@ -160,9 +160,9 @@ urlpatterns = [
     path('api/settlement/<str:id>/', api.DetailHistoryettlement.as_view()),
     path('api/settlement/history', api.Historyettlement.as_view()),
 
-    path('api/qris', api.XenditQris.as_view()),
-    path('api/qris/check/<str:id>/', api.XenditQris.as_view()),
-    path('api/qris/callback', api.XenditCallback.as_view()),
+    path('api/qris', qris.XenditQris.as_view()),
+    path('api/qris/check/<str:id>/', qris.XenditQris.as_view()),
+    path('api/qris/callback', qris.XenditCallback.as_view()),
 
     path('api/ppob/pricelist', api.MobileDataPrice.as_view()),
     path('api/ppob/callback', api.MobileDataCallback.as_view()),
