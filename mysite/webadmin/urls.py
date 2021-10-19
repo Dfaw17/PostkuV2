@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from . import views
 from . import api
 from .apis import toko, articles, menu, kategori_menu, stock_menu, absen, man_table, discount, service_fee, pajak, \
-    pelanggan, kritik_saran, beranda, laporan_bisnis, label_order, tipe_order, transaction, qris
+    pelanggan, kritik_saran, beranda, laporan_bisnis, label_order, tipe_order, transaction, qris, reports
 
 urlpatterns = [
     # ======================================WEB================================
@@ -147,14 +147,14 @@ urlpatterns = [
     path('api/articles', articles.Articles.as_view()),
     path('api/articles/<str:id>/', articles.DetailArticles.as_view()),
 
-    path('api/report/menu', api.ReportByMenu.as_view()),
-    path('api/report/kategori', api.ReportByMenuKategori.as_view()),
-    path('api/report/employee', api.ReportByEmployee.as_view()),
-    path('api/report/disc', api.ReportByDisc.as_view()),
-    path('api/report/table', api.ReportByTable.as_view()),
-    path('api/report/pelanggan', api.ReportByPelanggan.as_view()),
-    path('api/report/order_tipe', api.ReportByOrderType.as_view()),
-    path('api/report/label_order', api.ReportByLabelOrder.as_view()),
+    path('api/report/menu', reports.ReportByMenu.as_view()),
+    path('api/report/kategori', reports.ReportByMenuKategori.as_view()),
+    path('api/report/employee', reports.ReportByEmployee.as_view()),
+    path('api/report/disc', reports.ReportByDisc.as_view()),
+    path('api/report/table', reports.ReportByTable.as_view()),
+    path('api/report/pelanggan', reports.ReportByPelanggan.as_view()),
+    path('api/report/order_tipe', reports.ReportByOrderType.as_view()),
+    path('api/report/label_order', reports.ReportByLabelOrder.as_view()),
 
     path('api/settlement', api.CreateSettlement.as_view()),
     path('api/settlement/<str:id>/', api.DetailHistoryettlement.as_view()),
