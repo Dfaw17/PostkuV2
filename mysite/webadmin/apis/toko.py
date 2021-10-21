@@ -12,8 +12,8 @@ class DetailToko(generics.GenericAPIView):
             toko = Toko.objects.get(id=id)
             data_toko_akun = TokoSerializer(toko).data
 
-            pegawai = toko.account_set.filter(is_owner=0).values()
-            data_pegawai = ExtendsUserSerializer(pegawai).data
+            pegawai = Account.objects.filter(toko__id=id, is_owner=0)
+            data_pegawai = ExtendsUserSerializer(pegawai, many=True).data
 
             msg = "Success found data"
             status_code = status.HTTP_200_OK
