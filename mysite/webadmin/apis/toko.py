@@ -13,6 +13,7 @@ class DetailToko(generics.GenericAPIView):
             data_toko_akun = TokoSerializer(toko).data
 
             pegawai = toko.account_set.filter(is_owner=0).values()
+            data_pegawai = ExtendsUserSerializer(pegawai).data
 
             msg = "Success found data"
             status_code = status.HTTP_200_OK
@@ -25,7 +26,7 @@ class DetailToko(generics.GenericAPIView):
             'msg': msg,
             'status_code': status_code,
             'data': data_toko_akun,
-            'pegawai_toko': list(pegawai),
+            'pegawai_toko': list(data_pegawai),
         })
 
 class CRUDToko(generics.GenericAPIView):
