@@ -26,7 +26,7 @@ class DetailToko(generics.GenericAPIView):
             'msg': msg,
             'status_code': status_code,
             'data': data_toko_akun,
-            'pegawai_toko': list(data_pegawai),
+            'pegawai_toko': data_pegawai,
         })
 
 class CRUDToko(generics.GenericAPIView):
