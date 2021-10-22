@@ -41,10 +41,15 @@
                                 <tbody>
                                 {% for i in toko %}
                                 <tr>
-                                    <td align="center"><img width="70" height="50" src="{{i.logo.url}}"></td>
+                                    {% if i.logo.url is not null %}
+                                        <td align="center"><img width="70" height="50" src="{{i.logo.url}}"></td>
+                                    {% else %}
+                                        <td align="center"><img width="70" height="50" src="{% static 'bg-postku2.png' %}"></td>
+                                    {% endif %}
                                     <td>{{i.nama}}</td>
                                     <td>{{i.kategori}}</td>
-                                    <td><a class="btn btn-sm btn-info" href="{% url 'detail_toko' i.id %}">Detail</a></td>
+                                    <td><a class="btn btn-sm btn-info" href="{% url 'detail_toko' i.id %}">Detail</a>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>

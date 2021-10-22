@@ -52,13 +52,11 @@ class Absen(generics.GenericAPIView):
         date2 = request.GET.get('date2')
 
         if date1 and date2 != "":
-            absen = Absensi.objects.filter(toko=id, created_at__range=[date1, date2]).order_by(
-                '-created_at')
+            absen = Absensi.objects.filter(toko=id, created_at__range=[date1, date2]).order_by('-created_at')
         else:
-            absen = Absensi.objects.filter(toko=id).order_by(
-                '-created_at')
+            absen = Absensi.objects.filter(toko=id).order_by('-created_at')
 
-        data_absensi_toko = AbsenSerializer(absen, many=True).data
+        data_absensi_toko = CustomAbsenSerializer(absen, many=True).data
 
         msg = "Success found data"
         status_code = status.HTTP_200_OK

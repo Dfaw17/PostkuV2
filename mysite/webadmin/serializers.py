@@ -5,49 +5,6 @@ from .models import *
 from xendit import *
 
 
-# =======================================CUSTOM SERIALIZERS=======================================
-class custom_trx_for_settelement(serializers.ModelSerializer):
-    class Meta:
-        model = Transaction
-        fields = ('__all__')
-
-
-class custom_toko_for_login(serializers.ModelSerializer):
-    class Meta:
-        model = Toko
-        fields = ('__all__')
-
-
-class custom_menu_for_cartitem(serializers.ModelSerializer):
-    class Meta:
-        model = Menu
-        fields = ('nama', 'harga')
-
-
-class custom_disc_for_cartitem(serializers.ModelSerializer):
-    class Meta:
-        model = Discount
-        fields = ('nama',)
-
-
-class XenditQrisSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = QRCode
-        fields = ('__all__')
-
-
-class XenditCallbackSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CallbackXendit
-        fields = ('__all__')
-
-
-class MobileDataCallbackSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CallbackMobileData
-        fields = ('__all__')
-
-
 # =======================================MAIN SERIALIZERS=======================================
 class RegisterSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True)
@@ -66,7 +23,6 @@ class ExtendsUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = ('__all__')
-        # exclude = ('toko',)
 
 
 class TokoSerializer(serializers.ModelSerializer):
@@ -95,15 +51,6 @@ class KategoriMenuSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 
-class CartItemsSerializer(serializers.ModelSerializer):
-    menu_name = custom_menu_for_cartitem(source='menu', read_only=True)
-    disc_name = custom_disc_for_cartitem(source='discount', read_only=True)
-
-    class Meta:
-        model = CartItems
-        fields = ('__all__')
-
-
 class CartSerializer(serializers.ModelSerializer):
     class Meta:
         # service_fee = serializers.SlugRelatedField(
@@ -118,14 +65,6 @@ class CartSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ('__all__')
-
-
-class SettlementnSerializer(serializers.ModelSerializer):
-    data_trx = custom_trx_for_settelement(source='data', many=True, read_only=True)
-
-    class Meta:
-        model = Settlement
         fields = ('__all__')
 
 
@@ -294,4 +233,73 @@ class BankSerializer(serializers.ModelSerializer):
 class ChannelPaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChanelPayment
+        fields = ('__all__')
+
+
+# =======================================CUSTOM SERIALIZERS=======================================
+class custom_trx_for_settelement(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = ('__all__')
+
+
+class custom_toko_for_login(serializers.ModelSerializer):
+    class Meta:
+        model = Toko
+        fields = ('__all__')
+
+
+class custom_menu_for_cartitem(serializers.ModelSerializer):
+    class Meta:
+        model = Menu
+        fields = ('nama', 'harga')
+
+
+class custom_disc_for_cartitem(serializers.ModelSerializer):
+    class Meta:
+        model = Discount
+        fields = ('nama',)
+
+
+class XenditQrisSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QRCode
+        fields = ('__all__')
+
+
+class XenditCallbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CallbackXendit
+        fields = ('__all__')
+
+
+class MobileDataCallbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CallbackMobileData
+        fields = ('__all__')
+
+
+class CartItemsSerializer(serializers.ModelSerializer):
+    menu_name = custom_menu_for_cartitem(source='menu', read_only=True)
+    disc_name = custom_disc_for_cartitem(source='discount', read_only=True)
+
+    class Meta:
+        model = CartItems
+        fields = ('__all__')
+
+
+class SettlementnSerializer(serializers.ModelSerializer):
+    data_trx = custom_trx_for_settelement(source='data', many=True, read_only=True)
+
+    class Meta:
+        model = Settlement
+        fields = ('__all__')
+
+
+class CustomAbsenSerializer(serializers.ModelSerializer):
+    nama = serializers.CharField(source='user.nama', read_only=True)
+    no_telp = serializers.CharField(source='user.phone', read_only=True)
+
+    class Meta:
+        model = Absensi
         fields = ('__all__')
