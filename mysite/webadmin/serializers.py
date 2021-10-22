@@ -299,6 +299,7 @@ class SettlementnSerializer(serializers.ModelSerializer):
 class CustomAbsenSerializer(serializers.ModelSerializer):
     nama = serializers.CharField(source='user.nama', read_only=True)
     no_telp = serializers.CharField(source='user.phone', read_only=True)
+    email = serializers.CharField(source='user.email', read_only=True)
 
     class Meta:
         model = Absensi

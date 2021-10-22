@@ -93,7 +93,7 @@ class DetailAbsen(generics.GenericAPIView):
     def get(self, request, id):
         try:
             absen = Absensi.objects.get(id=id)
-            data_absen = AbsenSerializer(absen).data
+            data_absen = CustomAbsenSerializer(absen).data
             msg = "Success found data"
             status_code = status.HTTP_200_OK
         except ObjectDoesNotExist:
