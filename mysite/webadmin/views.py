@@ -132,6 +132,10 @@ def home(requets):
         chart_trx_sub = Transaction.objects.filter(created_at__range=[date, date2]).extra(
             select={'day': 'DATE(created_at)'}).values('day').annotate(
             grand_total=Sum('grand_total'))
+
+        chart_req_topup = ConfirmWallet.objects.filter(created_at__range=[date, date2]).extra(
+            select={'day': 'DATE(created_at)'}).values('day').annotate(
+            balance=Sum('balance'))
     else:
         account = Account.objects.filter(is_owner=1, created_at__range=[today_start, today_end])
         total_account = account.count()
@@ -196,7 +200,11 @@ def home(requets):
             select={'day': 'DATE( created_at )'}).values('day').annotate(
             grand_total=Sum('grand_total'))
 
-    print(chart_trx_sub)
+        chart_req_topup = ConfirmWallet.objects.filter(created_at__range=[today_start, today_end]).extra(
+            select={'day': 'DATE(created_at)'}).values('day').annotate(
+            balance=Sum('balance'))
+
+    print(chart_req_topup)
     if transaction.get('total__sum') is None:
         total_all_transaction = 0
     else:
@@ -285,6 +293,7 @@ def home(requets):
         'total_gagal_topup_wallet': total_gagal_topup_wallet,
         'total_sukses_topup_wallet': total_sukses_topup_wallet,
         'chart_trx_sub': chart_trx_sub,
+        'chart_req_topup': chart_req_topup,
         'total_nett_income': total_difference_ppob + total_revenue_postku + total_trx_subs,
     }
     return render(requets, 'webadmin/index.html', context)

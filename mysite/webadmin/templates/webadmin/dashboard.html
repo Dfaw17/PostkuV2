@@ -379,14 +379,12 @@
     </div>
 
     <div class="row">
-
-        <div class="card shadow col-xl">
+        <div class="card shadow col-xl mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-warning">Chart Transaction POS</h6>
             </div>
             <div class="card-body">
                 <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-
                 <script type="text/javascript">
                     window.onload = function () {
                      var dps = [
@@ -416,48 +414,88 @@
                     chart.render();
                     }
                 </script>
-
             </div>
         </div>
-
     </div>
 
-    <!-- Content Row -->
+    <div class="row">
+        <div class="card shadow col-xl mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-warning">Chart Request Topup</h6>
+            </div>
+            <div class="card-body">
+                <div id="chartContainer2" style="height: 370px; width: 100%;"></div>
+                <script type="text/javascript">
+                    window.onload = function () {
+                     var dps = [
+                        {% for i in chart_req_topup %}
+                            { label: {{i.day|date:'d'}}, y: {{i.balance}} },
+                        {% endfor %}
+                     ];
+                    var chart = new CanvasJS.Chart("chartContainer2", {
+                        theme: "light2", // "light2", "dark1", "dark2"
+                        animationEnabled: true, // change to true
+                        axisX:{
+                            gridThickness: 0,
+                            tickLength: 0,
+                            lineThickness: 0,
+                            labelFormatter: function(){
+                              return " ";
+                            }
+                          },
+                        data: [
+                        {
+                            // Change type to "bar", "area", "spline", "pie",etc.
+                            type: "spline",
+                            dataPoints: dps
+                        }
+                        ]
+                    });
+                    chart.render();
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
 
-    <!--    <div class="row">-->
-    <!--        <div class="col-xl col-lg-7">-->
-    <!--            <div class="card shadow mb-4">-->
-    <!--                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">-->
-    <!--                    <h6 class="m-0 font-weight-bold text-warning">Earnings Overview</h6>-->
-    <!--                    <div class="dropdown no-arrow">-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--                <div class="card-body">-->
-    <!--                    <div class="chart-area">-->
-    <!--                        <canvas id="myAreaChart"></canvas>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        &lt;!&ndash; Pie Chart &ndash;&gt;-->
-    <!--        <div class="col-xl-4 col-lg-5">-->
-    <!--            <div class="card shadow mb-4">-->
-    <!--                <div class="card-body">-->
-    <!--                    <div class="chart-pie pt-4 pb-2">-->
-    <!--                        <canvas id="myPieChart"></canvas>-->
-    <!--                    </div>-->
-    <!--                    <div class="mt-4 text-center small">-->
-    <!--                                            <span class="mr-2">-->
-    <!--                                                <i class="fas fa-circle text-primary"></i> Direct-->
-    <!--                                            </span>-->
-    <!--                        <span class="mr-2">-->
-    <!--                                                <i class="fas fa-circle text-success"></i> Social-->
-    <!--                                            </span>-->
-    <!--                        <span class="mr-2">-->
-    <!--                                                <i class="fas fa-circle text-info"></i> Referral-->
-    <!--                                            </span>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
+</div>
+
+<!-- Content Row -->
+
+<!--    <div class="row">-->
+<!--        <div class="col-xl col-lg-7">-->
+<!--            <div class="card shadow mb-4">-->
+<!--                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">-->
+<!--                    <h6 class="m-0 font-weight-bold text-warning">Earnings Overview</h6>-->
+<!--                    <div class="dropdown no-arrow">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="card-body">-->
+<!--                    <div class="chart-area">-->
+<!--                        <canvas id="myAreaChart"></canvas>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Pie Chart &ndash;&gt;-->
+<!--        <div class="col-xl-4 col-lg-5">-->
+<!--            <div class="card shadow mb-4">-->
+<!--                <div class="card-body">-->
+<!--                    <div class="chart-pie pt-4 pb-2">-->
+<!--                        <canvas id="myPieChart"></canvas>-->
+<!--                    </div>-->
+<!--                    <div class="mt-4 text-center small">-->
+<!--                                            <span class="mr-2">-->
+<!--                                                <i class="fas fa-circle text-primary"></i> Direct-->
+<!--                                            </span>-->
+<!--                        <span class="mr-2">-->
+<!--                                                <i class="fas fa-circle text-success"></i> Social-->
+<!--                                            </span>-->
+<!--                        <span class="mr-2">-->
+<!--                                                <i class="fas fa-circle text-info"></i> Referral-->
+<!--                                            </span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
