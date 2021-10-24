@@ -129,7 +129,7 @@ def home(requets):
 
         trx_subs = TrxSubs.objects.filter(created_at__range=[date, date2]).aggregate(Sum('invoice'))
 
-        chart_trx_sub = Transaction.objects.filter(created_at__range=[date, date2]).extra(
+        chart_trx = Transaction.objects.filter(created_at__range=[date, date2]).extra(
             select={'day': 'DATE(created_at)'}).values('day').annotate(
             grand_total=Sum('grand_total'))
 
@@ -196,7 +196,7 @@ def home(requets):
 
         trx_subs = TrxSubs.objects.filter(created_at__range=[today_start, today_end]).aggregate(Sum('invoice'))
 
-        chart_trx_sub = Transaction.objects.filter(created_at__range=[today_start, today_end]).extra(
+        chart_trx = Transaction.objects.filter(created_at__range=[today_start, today_end]).extra(
             select={'day': 'DATE( created_at )'}).values('day').annotate(
             grand_total=Sum('grand_total'))
 
@@ -204,6 +204,7 @@ def home(requets):
             select={'day': 'DATE(created_at)'}).values('day').annotate(
             balance=Sum('balance'))
 
+    print(chart_trx)
     print(chart_req_topup)
     if transaction.get('total__sum') is None:
         total_all_transaction = 0
@@ -292,7 +293,7 @@ def home(requets):
         'total_pending_topup_wallet': total_pending_topup_wallet,
         'total_gagal_topup_wallet': total_gagal_topup_wallet,
         'total_sukses_topup_wallet': total_sukses_topup_wallet,
-        'chart_trx_sub': chart_trx_sub,
+        'chart_trx': chart_trx,
         'chart_req_topup': chart_req_topup,
         'total_nett_income': total_difference_ppob + total_revenue_postku + total_trx_subs,
     }

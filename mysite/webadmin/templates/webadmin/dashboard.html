@@ -385,35 +385,6 @@
             </div>
             <div class="card-body">
                 <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-                <script type="text/javascript">
-                    window.onload = function () {
-                     var dps = [
-                        {% for i in chart_trx_sub %}
-                            { label: {{i.day|date:'d'}}, y: {{i.grand_total}} },
-                        {% endfor %}
-                     ];
-                    var chart = new CanvasJS.Chart("chartContainer", {
-                        theme: "light2", // "light2", "dark1", "dark2"
-                        animationEnabled: true, // change to true
-                        axisX:{
-                            gridThickness: 0,
-                            tickLength: 0,
-                            lineThickness: 0,
-                            labelFormatter: function(){
-                              return " ";
-                            }
-                          },
-                        data: [
-                        {
-                            // Change type to "bar", "area", "spline", "pie",etc.
-                            type: "spline",
-                            dataPoints: dps
-                        }
-                        ]
-                    });
-                    chart.render();
-                    }
-                </script>
             </div>
         </div>
     </div>
@@ -425,35 +396,6 @@
             </div>
             <div class="card-body">
                 <div id="chartContainer2" style="height: 370px; width: 100%;"></div>
-                <script type="text/javascript">
-                    window.onload = function () {
-                     var dps = [
-                        {% for i in chart_req_topup %}
-                            { label: {{i.day|date:'d'}}, y: {{i.balance}} },
-                        {% endfor %}
-                     ];
-                    var chart = new CanvasJS.Chart("chartContainer2", {
-                        theme: "light2", // "light2", "dark1", "dark2"
-                        animationEnabled: true, // change to true
-                        axisX:{
-                            gridThickness: 0,
-                            tickLength: 0,
-                            lineThickness: 0,
-                            labelFormatter: function(){
-                              return " ";
-                            }
-                          },
-                        data: [
-                        {
-                            // Change type to "bar", "area", "spline", "pie",etc.
-                            type: "spline",
-                            dataPoints: dps
-                        }
-                        ]
-                    });
-                    chart.render();
-                    }
-                </script>
             </div>
         </div>
     </div>
