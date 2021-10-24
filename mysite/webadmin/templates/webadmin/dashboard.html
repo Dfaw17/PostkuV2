@@ -2,8 +2,51 @@
 {% load humanize %}
 <div class="container-fluid">
 
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-warning">Filter Tanggal</h6>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label class="col-1 col-form-label">Start Date</label>
+                    <div class="col-3">
+                        <input class="form-control" type="date" id="date" name="date">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-1 col-form-label">End Date</label>
+                    <div class="col-3">
+                        <input class="form-control" type="date" name="date2">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
 
     <!-- Content Row -->
+    <div class="row">
+        <div class="col-xl col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Net Income Postku
+                            </div>
+                            &nbsp;
+                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp.
+                                {{total_nett_income|intcomma}}
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
 
         <div class="col-xl-3 col-md-6 mb-4">
@@ -84,7 +127,8 @@
                                 Transaction
                             </div>
                             &nbsp;
-                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp. {{total_all_transaction|intcomma}}
+                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp.
+                                {{total_all_transaction|intcomma}}
                             </div>
                             <hr>
                             <h1 class="text-xs font-weight-bold text-primary text-uppercase mb-0"><a
@@ -104,7 +148,8 @@
                                 Tunai
                             </div>
                             &nbsp;
-                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp. {{total_all_trx_tunai|intcomma}}
+                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp.
+                                {{total_all_trx_tunai|intcomma}}
                             </div>
                             <hr>
                             <a href="{% url 'transaction_tunai' %}"><h1
@@ -125,7 +170,8 @@
                                 Qris
                             </div>
                             &nbsp;
-                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp. {{total_all_trx_qris|intcomma}}
+                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp.
+                                {{total_all_trx_qris|intcomma}}
                             </div>
                             <hr>
                             <a href="{% url 'transaction_qris' %}"><h1
@@ -148,10 +194,182 @@
                             <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">
                                 Rp. {{total_revenue_postku|intcomma}}
                             </div>
-<!--                            <hr>-->
-<!--                            <a href="{% url 'pegawai' %}"><h1-->
-<!--                                    class="text-xs font-weight-bold text-info text-uppercase mb-1">Views Detail</h1>-->
-<!--                            </a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total All Transaction
+                                PPOB
+                            </div>
+                            &nbsp;
+                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp.
+                                {{total_all_ppob|intcomma}}
+                            </div>
+                            <hr>
+                            <a href="{% url 'transaction_ppob' %}"><h1
+                                    class="text-xs font-weight-bold text-primary text-uppercase mb-1">Views Detail</h1>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Pending
+                                Transaction PPOB
+                            </div>
+                            &nbsp;
+                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp.
+                                {{total_pending_ppob|intcomma}}
+                            </div>
+                            <hr>
+                            <a href="{% url 'transaction_ppob' %}"><h1
+                                    class="text-xs font-weight-bold text-success text-uppercase mb-1">Views Detail</h1>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Total Gagal
+                                Transaction PPOB
+                            </div>
+                            &nbsp;
+                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp.
+                                {{total_gagal_ppob|intcomma}}
+                            </div>
+                            <hr>
+                            <a href="{% url 'transaction_ppob' %}"><h1
+                                    class="text-xs font-weight-bold text-warning text-uppercase mb-1">Views Detail</h1>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Sukses
+                                Transaction PPOB
+                            </div>
+                            &nbsp;
+                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp.
+                                {{total_sukses_ppob|intcomma}}
+                            </div>
+                            <hr>
+                            <a href="{% url 'transaction_ppob' %}"><h1
+                                    class="text-xs font-weight-bold text-info text-uppercase mb-1">Views Detail</h1>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total All Topup
+                                Wallets
+                            </div>
+                            &nbsp;
+                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp.
+                                {{total_all_topup_wallet|intcomma}}
+                            </div>
+                            <hr>
+                            <a href="{% url 'transaction_ppob' %}"><h1
+                                    class="text-xs font-weight-bold text-primary text-uppercase mb-1">Views Detail</h1>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Pending Topup
+                                Wallets
+                            </div>
+                            &nbsp;
+                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp.
+                                {{total_pending_topup_wallet|intcomma}}
+                            </div>
+                            <hr>
+                            <a href="{% url 'transaction_ppob' %}"><h1
+                                    class="text-xs font-weight-bold text-success text-uppercase mb-1">Views Detail</h1>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Total Gagal Topup
+                                Wallets
+                            </div>
+                            &nbsp;
+                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp.
+                                {{total_gagal_topup_wallet|intcomma}}
+                            </div>
+                            <hr>
+                            <a href="{% url 'transaction_ppob' %}"><h1
+                                    class="text-xs font-weight-bold text-warning text-uppercase mb-1">Views Detail</h1>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Sukses Topup
+                                Wallets
+                            </div>
+                            &nbsp;
+                            <div align="center" class="h4 mb-0 font-weight-bold text-gray-900">Rp.
+                                {{total_sukses_topup_wallet|intcomma}}
+                            </div>
+                            <hr>
+                            <a href="{% url 'transaction_ppob' %}"><h1
+                                    class="text-xs font-weight-bold text-info text-uppercase mb-1">Views Detail</h1>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -162,43 +380,43 @@
 
     <!-- Content Row -->
 
-<!--    <div class="row">-->
-<!--        <div class="col-xl-8 col-lg-7">-->
-<!--            <div class="card shadow mb-4">-->
-<!--                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">-->
-<!--                    <h6 class="m-0 font-weight-bold text-warning">Earnings Overview</h6>-->
-<!--                    <div class="dropdown no-arrow">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="card-body">-->
-<!--                    <div class="chart-area">-->
-<!--                        <canvas id="myAreaChart"></canvas>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+    <!--    <div class="row">-->
+    <!--        <div class="col-xl-8 col-lg-7">-->
+    <!--            <div class="card shadow mb-4">-->
+    <!--                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">-->
+    <!--                    <h6 class="m-0 font-weight-bold text-warning">Earnings Overview</h6>-->
+    <!--                    <div class="dropdown no-arrow">-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="card-body">-->
+    <!--                    <div class="chart-area">-->
+    <!--                        <canvas id="myAreaChart"></canvas>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
 
-<!--        &lt;!&ndash; Pie Chart &ndash;&gt;-->
-<!--        <div class="col-xl-4 col-lg-5">-->
-<!--            <div class="card shadow mb-4">-->
-<!--                <div class="card-body">-->
-<!--                    <div class="chart-pie pt-4 pb-2">-->
-<!--                        <canvas id="myPieChart"></canvas>-->
-<!--                    </div>-->
-<!--                    <div class="mt-4 text-center small">-->
-<!--                                        <span class="mr-2">-->
-<!--                                            <i class="fas fa-circle text-primary"></i> Direct-->
-<!--                                        </span>-->
-<!--                        <span class="mr-2">-->
-<!--                                            <i class="fas fa-circle text-success"></i> Social-->
-<!--                                        </span>-->
-<!--                        <span class="mr-2">-->
-<!--                                            <i class="fas fa-circle text-info"></i> Referral-->
-<!--                                        </span>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+    <!--        &lt;!&ndash; Pie Chart &ndash;&gt;-->
+    <!--        <div class="col-xl-4 col-lg-5">-->
+    <!--            <div class="card shadow mb-4">-->
+    <!--                <div class="card-body">-->
+    <!--                    <div class="chart-pie pt-4 pb-2">-->
+    <!--                        <canvas id="myPieChart"></canvas>-->
+    <!--                    </div>-->
+    <!--                    <div class="mt-4 text-center small">-->
+    <!--                                        <span class="mr-2">-->
+    <!--                                            <i class="fas fa-circle text-primary"></i> Direct-->
+    <!--                                        </span>-->
+    <!--                        <span class="mr-2">-->
+    <!--                                            <i class="fas fa-circle text-success"></i> Social-->
+    <!--                                        </span>-->
+    <!--                        <span class="mr-2">-->
+    <!--                                            <i class="fas fa-circle text-info"></i> Referral-->
+    <!--                                        </span>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
 
-<!--    </div>-->
+    <!--    </div>-->
 </div>
