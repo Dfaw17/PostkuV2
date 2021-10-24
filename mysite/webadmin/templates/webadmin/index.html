@@ -4,33 +4,34 @@
 {% include 'webadmin/head.html' %}
 
 <body id="page-top">
-    <div id="wrapper">
+<div id="wrapper">
     {% include 'webadmin/sidebar.html' %}
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                {% include 'webadmin/navbar.html' %}
-                {% include 'webadmin/dashboard.html' %}
-            </div>
-                {% include 'webadmin/footer.html' %}
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            {% include 'webadmin/navbar.html' %}
+            {% include 'webadmin/dashboard.html' %}
         </div>
-        <!-- End of Content Wrapper -->
-
+        {% include 'webadmin/footer.html' %}
     </div>
-    <!-- End of Page Wrapper -->
+    <!-- End of Content Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
 
 
-    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
-    <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
-    <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+<script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+<script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+<script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 </body>
 

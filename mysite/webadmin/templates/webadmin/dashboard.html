@@ -378,10 +378,54 @@
 
     </div>
 
+    <div class="row">
+
+        <div class="card shadow col-xl">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-warning">Chart Transaction POS</h6>
+            </div>
+            <div class="card-body">
+                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+
+                <script type="text/javascript">
+                    window.onload = function () {
+                     var dps = [
+                        {% for i in chart_trx_sub %}
+                            { label: {{i.day|date:'d'}}, y: {{i.grand_total}} },
+                        {% endfor %}
+                     ];
+                    var chart = new CanvasJS.Chart("chartContainer", {
+                        theme: "light2", // "light2", "dark1", "dark2"
+                        animationEnabled: true, // change to true
+                        axisX:{
+                            gridThickness: 0,
+                            tickLength: 0,
+                            lineThickness: 0,
+                            labelFormatter: function(){
+                              return " ";
+                            }
+                          },
+                        data: [
+                        {
+                            // Change type to "bar", "area", "spline", "pie",etc.
+                            type: "spline",
+                            dataPoints: dps
+                        }
+                        ]
+                    });
+                    chart.render();
+                    }
+                </script>
+
+            </div>
+        </div>
+
+    </div>
+
     <!-- Content Row -->
 
     <!--    <div class="row">-->
-    <!--        <div class="col-xl-8 col-lg-7">-->
+    <!--        <div class="col-xl col-lg-7">-->
     <!--            <div class="card shadow mb-4">-->
     <!--                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">-->
     <!--                    <h6 class="m-0 font-weight-bold text-warning">Earnings Overview</h6>-->
@@ -395,7 +439,6 @@
     <!--                </div>-->
     <!--            </div>-->
     <!--        </div>-->
-
     <!--        &lt;!&ndash; Pie Chart &ndash;&gt;-->
     <!--        <div class="col-xl-4 col-lg-5">-->
     <!--            <div class="card shadow mb-4">-->
@@ -404,19 +447,17 @@
     <!--                        <canvas id="myPieChart"></canvas>-->
     <!--                    </div>-->
     <!--                    <div class="mt-4 text-center small">-->
-    <!--                                        <span class="mr-2">-->
-    <!--                                            <i class="fas fa-circle text-primary"></i> Direct-->
-    <!--                                        </span>-->
+    <!--                                            <span class="mr-2">-->
+    <!--                                                <i class="fas fa-circle text-primary"></i> Direct-->
+    <!--                                            </span>-->
     <!--                        <span class="mr-2">-->
-    <!--                                            <i class="fas fa-circle text-success"></i> Social-->
-    <!--                                        </span>-->
+    <!--                                                <i class="fas fa-circle text-success"></i> Social-->
+    <!--                                            </span>-->
     <!--                        <span class="mr-2">-->
-    <!--                                            <i class="fas fa-circle text-info"></i> Referral-->
-    <!--                                        </span>-->
+    <!--                                                <i class="fas fa-circle text-info"></i> Referral-->
+    <!--                                            </span>-->
     <!--                    </div>-->
     <!--                </div>-->
     <!--            </div>-->
     <!--        </div>-->
-
     <!--    </div>-->
-</div>

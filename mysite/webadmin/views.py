@@ -4,6 +4,8 @@ import hashlib
 
 from django.db.models import Count
 from django.db import connection
+from django.db.models.functions import ExtractDay, TruncDate, TruncDay
+from django.http import JsonResponse
 from django.shortcuts import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -126,6 +128,10 @@ def home(requets):
             price_diff=Sum('price_postku') - Sum('price'))
 
         trx_subs = TrxSubs.objects.filter(created_at__range=[date, date2]).aggregate(Sum('invoice'))
+
+        chart_trx_sub = Transaction.objects.filter(created_at__range=[date, date2]).extra(
+            select={'day': 'DATE(created_at)'}).values('day').annotate(
+            grand_total=Sum('grand_total'))
     else:
         account = Account.objects.filter(is_owner=1, created_at__range=[today_start, today_end])
         total_account = account.count()
@@ -186,6 +192,11 @@ def home(requets):
 
         trx_subs = TrxSubs.objects.filter(created_at__range=[today_start, today_end]).aggregate(Sum('invoice'))
 
+        chart_trx_sub = Transaction.objects.filter(created_at__range=[today_start, today_end]).extra(
+            select={'day': 'DATE( created_at )'}).values('day').annotate(
+            grand_total=Sum('grand_total'))
+
+    print(chart_trx_sub)
     if transaction.get('total__sum') is None:
         total_all_transaction = 0
     else:
@@ -273,6 +284,7 @@ def home(requets):
         'total_pending_topup_wallet': total_pending_topup_wallet,
         'total_gagal_topup_wallet': total_gagal_topup_wallet,
         'total_sukses_topup_wallet': total_sukses_topup_wallet,
+        'chart_trx_sub': chart_trx_sub,
         'total_nett_income': total_difference_ppob + total_revenue_postku + total_trx_subs,
     }
     return render(requets, 'webadmin/index.html', context)
