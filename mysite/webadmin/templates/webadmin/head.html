@@ -54,11 +54,6 @@
      <script type="text/javascript">
         window.onload = function () {
 
-             var data2 = [
-                {% for i in chart_req_topup %}
-                    { label: {{i.day|date:'d'}}, y: {{i.balance}} },
-                {% endfor %}
-             ];
             var chart = new CanvasJS.Chart("chartContainer2", {
                 theme: "light2",
                 animationEnabled: true,
@@ -73,18 +68,14 @@
                 data: [
                 {
                     type: "spline",
-                    dataPoints: data2
+                    dataPoints: [
+                        {% for i in chart_req_topup %}{ label: "{{i.day|date:'D d/m/y'}}", y: {{i.balance}}  },{% endfor %}
+                    ]
                 }
                 ]
             });
             chart.render();
 
-
-            var data1 = [
-                {% for i in chart_trx %}
-                    { label: {{i.day|date:'d'}}, y: {{i.grand_total}} },
-                {% endfor %}
-             ];
             var chart = new CanvasJS.Chart("chartContainer", {
                 theme: "light2",
                 animationEnabled: true,
@@ -99,17 +90,14 @@
                 data: [
                 {
                     type: "spline",
-                    dataPoints: data1
+                    dataPoints: [
+                        {% for i in chart_trx %}{ label: "{{i.day|date:'D d/m/y'}}",  y: {{i.grand_total}}  },{% endfor %}
+                    ]
                 }
                 ]
             });
             chart.render();
 
-            var data3 = [
-                {% for i in chart_trx_ppob %}
-                    { label: {{i.day|date:'d'}}, y: {{i.price_postku}} },
-                {% endfor %}
-             ];
             var chart = new CanvasJS.Chart("chartContainer3", {
                 theme: "light2",
                 animationEnabled: true,
@@ -124,17 +112,14 @@
                 data: [
                 {
                     type: "spline",
-                    dataPoints: data3
+                    dataPoints: [
+                        {% for i in chart_trx_ppob %}{ label: "{{i.day|date:'D d/m/y'}}", y: {{i.price_postku}}  },{% endfor %}
+                    ]
                 }
                 ]
             });
             chart.render();
 
-            var data4 = [
-                {% for i in chart_subs %}
-                    { label: {{i.day|date:'d'}}, y: {{i.invoice}} },
-                {% endfor %}
-             ];
             var chart = new CanvasJS.Chart("chartContainer4", {
                 theme: "light2",
                 animationEnabled: true,
@@ -149,7 +134,37 @@
                 data: [
                 {
                     type: "spline",
-                    dataPoints: data4
+                     dataPoints: [
+                        {% for i in chart_subs %}{ label: "{{i.day|date:'D d/m/y'}}", y: {{i.invoice}}  },{% endfor %}
+                    ]
+                }
+                ]
+            });
+            chart.render();
+
+            var chart = new CanvasJS.Chart("chartContainer5", {
+                theme: "light2",
+                animationEnabled: true,
+                data: [
+                {
+                    type: "pie",
+                    dataPoints: [
+                        {% for i in chart_type_trx %}{ label: "{{i.payment_type__paymnet}}",  y: {{i.jumlah_trx}}  },{% endfor %}
+                    ]
+                }
+                ]
+            });
+            chart.render();
+
+            var chart = new CanvasJS.Chart("chartContainer6", {
+                theme: "light2",
+                animationEnabled: true,
+                data: [
+                {
+                    type: "column",
+                    dataPoints: [
+                        {% for i in chart_brand_ppob %}{ label: "{{i.brand}}",  y: {{i.jumlah_trx}}  },{% endfor %}
+                    ]
                 }
                 ]
             });

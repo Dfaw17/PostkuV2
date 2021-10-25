@@ -144,6 +144,12 @@ def home(requets):
         chart_subs = TrxSubs.objects.filter(created_at__range=[date, date2]).extra(
             select={'day': 'DATE(created_at)'}).values('day').annotate(
             invoice=Sum('invoice'))
+
+        chart_type_trx = Transaction.objects.filter(created_at__range=[date, date2]).values(
+            'payment_type__paymnet').annotate(jumlah_trx=Count('id'))
+
+        chart_brand_ppob = PPOBPrepaidTransaction.objects.filter(created_at__range=[date, date2]).values(
+            'brand').annotate(jumlah_trx=Count('id'))
     else:
         account = Account.objects.filter(is_owner=1, created_at__range=[today_start, today_end])
         total_account = account.count()
@@ -219,6 +225,12 @@ def home(requets):
         chart_subs = TrxSubs.objects.filter(created_at__range=[today_start, today_end]).extra(
             select={'day': 'DATE(created_at)'}).values('day').annotate(
             invoice=Sum('invoice'))
+
+        chart_type_trx = Transaction.objects.filter(created_at__range=[today_start, today_end]).values(
+            'payment_type__paymnet').annotate(jumlah_trx=Count('id'))
+
+        chart_brand_ppob = PPOBPrepaidTransaction.objects.filter(created_at__range=[today_start, today_end]).values(
+            'brand').annotate(jumlah_trx=Count('id'))
 
     if transaction.get('total__sum') is None:
         total_all_transaction = 0
@@ -311,6 +323,8 @@ def home(requets):
         'chart_req_topup': chart_req_topup,
         'chart_trx_ppob': chart_trx_ppob,
         'chart_subs': chart_subs,
+        'chart_type_trx': chart_type_trx,
+        'chart_brand_ppob': chart_brand_ppob,
         'total_nett_income': total_difference_ppob + total_revenue_postku + total_trx_subs,
     }
     return render(requets, 'webadmin/index.html', context)
