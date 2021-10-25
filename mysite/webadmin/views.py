@@ -136,6 +136,14 @@ def home(requets):
         chart_req_topup = ConfirmWallet.objects.filter(created_at__range=[date, date2]).extra(
             select={'day': 'DATE(created_at)'}).values('day').annotate(
             balance=Sum('balance'))
+
+        chart_trx_ppob = PPOBPrepaidTransaction.objects.filter(created_at__range=[date, date2]).extra(
+            select={'day': 'DATE(created_at)'}).values('day').annotate(
+            price_postku=Sum('price_postku'))
+
+        chart_subs = TrxSubs.objects.filter(created_at__range=[date, date2]).extra(
+            select={'day': 'DATE(created_at)'}).values('day').annotate(
+            invoice=Sum('invoice'))
     else:
         account = Account.objects.filter(is_owner=1, created_at__range=[today_start, today_end])
         total_account = account.count()
@@ -204,8 +212,14 @@ def home(requets):
             select={'day': 'DATE(created_at)'}).values('day').annotate(
             balance=Sum('balance'))
 
-    print(chart_trx)
-    print(chart_req_topup)
+        chart_trx_ppob = PPOBPrepaidTransaction.objects.filter(created_at__range=[today_start, today_end]).extra(
+            select={'day': 'DATE(created_at)'}).values('day').annotate(
+            price_postku=Sum('price_postku'))
+
+        chart_subs = TrxSubs.objects.filter(created_at__range=[today_start, today_end]).extra(
+            select={'day': 'DATE(created_at)'}).values('day').annotate(
+            invoice=Sum('invoice'))
+
     if transaction.get('total__sum') is None:
         total_all_transaction = 0
     else:
@@ -295,6 +309,8 @@ def home(requets):
         'total_sukses_topup_wallet': total_sukses_topup_wallet,
         'chart_trx': chart_trx,
         'chart_req_topup': chart_req_topup,
+        'chart_trx_ppob': chart_trx_ppob,
+        'chart_subs': chart_subs,
         'total_nett_income': total_difference_ppob + total_revenue_postku + total_trx_subs,
     }
     return render(requets, 'webadmin/index.html', context)

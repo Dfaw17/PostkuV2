@@ -53,6 +53,7 @@
 
      <script type="text/javascript">
         window.onload = function () {
+
              var data2 = [
                 {% for i in chart_req_topup %}
                     { label: {{i.day|date:'d'}}, y: {{i.balance}} },
@@ -99,6 +100,56 @@
                 {
                     type: "spline",
                     dataPoints: data1
+                }
+                ]
+            });
+            chart.render();
+
+            var data3 = [
+                {% for i in chart_trx_ppob %}
+                    { label: {{i.day|date:'d'}}, y: {{i.price_postku}} },
+                {% endfor %}
+             ];
+            var chart = new CanvasJS.Chart("chartContainer3", {
+                theme: "light2",
+                animationEnabled: true,
+                axisX:{
+                    gridThickness: 0,
+                    tickLength: 0,
+                    lineThickness: 0,
+                    labelFormatter: function(){
+                      return " ";
+                    }
+                  },
+                data: [
+                {
+                    type: "spline",
+                    dataPoints: data3
+                }
+                ]
+            });
+            chart.render();
+
+            var data4 = [
+                {% for i in chart_subs %}
+                    { label: {{i.day|date:'d'}}, y: {{i.invoice}} },
+                {% endfor %}
+             ];
+            var chart = new CanvasJS.Chart("chartContainer4", {
+                theme: "light2",
+                animationEnabled: true,
+                axisX:{
+                    gridThickness: 0,
+                    tickLength: 0,
+                    lineThickness: 0,
+                    labelFormatter: function(){
+                      return " ";
+                    }
+                  },
+                data: [
+                {
+                    type: "spline",
+                    dataPoints: data4
                 }
                 ]
             });
