@@ -6,35 +6,37 @@ from . import api
 from .apis import toko, articles, menu, kategori_menu, stock_menu, absen, man_table, discount, service_fee, pajak, \
     pelanggan, kritik_saran, beranda, laporan_bisnis, label_order, tipe_order, transaction, qris, reports
 
+from .viewss import views_auth, views_home, views_account, views_toko, views_menu, views_reports
+
 urlpatterns = [
     # ======================================WEB================================
 
-    path('', views.home, name='home'),
-    path('wrong_access', views.wrong_access, name='wrong_access'),
-    path('accounts/login/', views.loginpage, name='login'),
-    path('accounts/register/', views.registerpage, name='register'),
-    path('logout', views.logoutpage, name='logout'),
+    path('', views_home.home, name='home'),
+    path('wrong_access', views_auth.wrong_access, name='wrong_access'),
+    path('accounts/login/', views_auth.loginpage, name='login'),
+    path('accounts/register/', views_auth.registerpage, name='register'),
+    path('logout', views_auth.logoutpage, name='logout'),
 
     path('reset_password/', auth_views.PasswordResetView.as_view(), name="reset_password"),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(), name="password_reset_done"),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
 
-    path('account', views.account, name='account'),
-    path('account/<str:id>/', views.detail_account, name='detail_account'),
+    path('account', views_account.account, name='account'),
+    path('account/<str:id>/', views_account.detail_account, name='detail_account'),
 
-    path('pegawai', views.pegawai, name='pegawai'),
-    path('pegawai/<str:id>/', views.detail_pegawai, name='detail_pegawai'),
+    path('pegawai', views_account.pegawai, name='pegawai'),
+    path('pegawai/<str:id>/', views_account.detail_pegawai, name='detail_pegawai'),
 
-    path('toko', views.toko, name='toko'),
-    path('toko/<str:id>/', views.detail_toko, name='detail_toko'),
+    path('toko', views_toko.toko, name='toko'),
+    path('toko/<str:id>/', views_toko.detail_toko, name='detail_toko'),
 
-    path('menu', views.menu, name='menu'),
-    path('menu/<str:id>/', views.detail_menu, name='detail_menu'),
+    path('menu', views_menu.menu, name='menu'),
+    path('menu/<str:id>/', views_menu.detail_menu, name='detail_menu'),
 
     path('absen', views.absen, name='absen'),
 
-    path('kategori_menu', views.kategori_menu, name='kategori_menu'),
+    path('kategori_menu', views_menu.kategori_menu, name='kategori_menu'),
     path('discount', views.discount, name='discount'),
     path('table', views.table, name='table'),
     path('stock', views.stock, name='stock'),
@@ -67,12 +69,12 @@ urlpatterns = [
     path('confirm/request_topup_reject/<str:id>/', views.confirm_request_topup_reject,
          name='confirm_request_topup_reject'),
 
-    path('report/merchant', views.report_merchant, name='report_merchant'),
-    path('report/menu', views.report_menu, name='report_menu'),
-    path('report/pegawai', views.report_pegawai, name='report_pegawai'),
-    path('report/disc', views.report_disc, name='report_disc'),
-    path('report/table', views.report_table, name='report_table'),
-    path('report/pelanggan', views.report_pelanggan, name='report_pelanggan'),
+    path('report/merchant', views_reports.report_merchant, name='report_merchant'),
+    path('report/menu', views_reports.report_menu, name='report_menu'),
+    path('report/pegawai', views_reports.report_pegawai, name='report_pegawai'),
+    path('report/disc', views_reports.report_disc, name='report_disc'),
+    path('report/table', views_reports.report_table, name='report_table'),
+    path('report/pelanggan', views_reports.report_pelanggan, name='report_pelanggan'),
 
     path('ppob_digi', views.ppob_digi, name='ppob_digi'),
     path('ppob_digi/sync', views.sync_ppob_digi, name='sync_ppob_digi'),
