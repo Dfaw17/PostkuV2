@@ -12,6 +12,11 @@
             {% include 'webadmin/navbar.html' %}
             <div class="container-fluid">
                 <h1>Detail Settlement Active</h1>
+                {% if messages %}
+                {% for message in messages %}
+                <div class="p-3 mb-2 bg-success text-white">{{ message }}</div>
+                {% endfor %}
+                {% endif %}
                 <div class="card">
                     <div class="card-body">
 
@@ -33,6 +38,23 @@
                                 <textarea class="form-control" readonly="" rows="1">{{settlement.created_at}}</textarea>
                             </div>
                         </div>
+
+                        <br>
+                        <label for="image">Upload Bukti Transaksi</label>
+                        <div class="card p-3" style="width: 24rem;">
+                            <div class="row">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group col-md-12">
+                                        <input type="file" class="form-control-file" name="image" id="image">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <input class="btn btn-warning btn-user btn-block" type="submit" value="Kirim">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <br>
 
                         <div class="row">
                             <div class="form-group col-md-12">
@@ -65,10 +87,10 @@
                             </div>
                         </div>
 
-                            <div class="form-group col-md-12">
-                                <a href="{% url 'confirm_settlement' settlement.id %}" type="button"
-                                   class="btn btn-success btn-lg btn-block">Confirm Settlement</a>
-                            </div>
+                        <div class="form-group col-md-12">
+                            <a href="{% url 'confirm_settlement' settlement.id %}" type="button"
+                               class="btn btn-success btn-lg btn-block">Confirm Settlement</a>
+                        </div>
 
 
                     </div>

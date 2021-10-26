@@ -166,6 +166,11 @@ def settlement_detail(requets, id):
     settlement = Settlement.objects.get(id=id)
     data_trx = settlement.data.all()
 
+    if requets.method == 'POST':
+        settlement.pic_claim = requets.POST['image']
+        settlement.save()
+        messages.success(requets, 'Success Upload Image !!!')
+
     context = {
         'settlement': settlement,
         'data_trx': data_trx,
