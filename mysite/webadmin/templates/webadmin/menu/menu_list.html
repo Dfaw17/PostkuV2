@@ -46,7 +46,11 @@
                                 <tbody>
                                 {% for i in menu %}
                                 <tr>
-                                    <td align="center"><img width="70" height="40" src="{{i.menu_pic.url}}"></td>
+                                    {% if i.menu_pic.url is not null %}
+                                        <td align="center"><img width="70" height="40" src="{{i.menu_pic.url}}"></td>
+                                    {% else %}
+                                        <td align="center"><img width="70" height="50" src="{% static 'bg-postku2.png' %}"></td>
+                                    {% endif %}
                                     <td>{{i.nama}}</td>
                                     <td>Rp {{i.harga|intcomma}}</td>
                                     <th>{{i.kategori}}</th>
