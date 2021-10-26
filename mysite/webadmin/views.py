@@ -176,7 +176,10 @@ def settlement_detail(requets, id):
 @login_required(login_url='login')
 def request_topup_detail(requets, id):
     rt = ConfirmWallet.objects.get(id=id)
-
+    if requets.method == 'POST':
+        rt.reason = requets.POST['reason']
+        rt.save()
+        messages.success(requets, 'Success Give The Reason !!!')
     context = {
         'rt': rt
     }
