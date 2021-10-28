@@ -6,6 +6,7 @@ from django.db.models import Count
 from rest_framework import status
 from rest_framework import generics
 
+
 class Beranda(generics.GenericAPIView):
 
     def get(self, request, id):
@@ -63,7 +64,7 @@ class Beranda(generics.GenericAPIView):
         status_subs = owner_toko.is_subs
 
         data_rekening = owner_toko.no_rekening
-        if data_rekening == None:
+        if data_rekening is None:
             status_rekening = False
         else:
             status_rekening = True

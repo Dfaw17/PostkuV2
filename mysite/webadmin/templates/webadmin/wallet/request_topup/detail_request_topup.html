@@ -22,8 +22,11 @@
                     <div class="card-body">
 
                         <div class="text-center">
-                            <a href="{{rt.pic.url}}"><img width="250" height="250" src="{{rt.pic.url}}" alt=""
-                                                          class="img-thumbnail"></a>
+                            {% if rt.pic.url is not null %}
+                                <a href="{{rt.pic.url}}"><img width="250" height="250" src="{{rt.pic.url}}" alt="" class="img-thumbnail"></a>
+                            {% else %}
+                                <a href="{% static 'bg-postku2.png' %}"><img width="250" height="250" src="{% static 'bg-postku2.png' %}" alt="" class="img-thumbnail"></a>
+                            {% endif %}
                         </div>
                         &nbsp;
 
