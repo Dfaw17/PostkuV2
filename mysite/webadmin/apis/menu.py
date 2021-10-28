@@ -83,9 +83,17 @@ class DetailMenu(generics.GenericAPIView):
         try:
             menu = Menu.objects.get(id=id)
             data_menu = CustomMenuSerializer(menu).data
+
+            try:
+                check_stock = StockMenu.objects.get(menu_id=menu)
+                check_stock = StockMenuSerializer(check_stock).data
+            except:
+                check_stock = None
+
             msg = "Success found data"
             status_code = status.HTTP_200_OK
         except ObjectDoesNotExist:
+            check_stock = None
             msg = "Incorrect id"
             data_menu = "Data Not Found"
             status_code = status.HTTP_404_NOT_FOUND
@@ -93,5 +101,6 @@ class DetailMenu(generics.GenericAPIView):
         return JsonResponse({
             'msg': msg,
             'status_code': status_code,
-            'data': data_menu
+            'data': data_menu,
+            'check_stock': check_stock
         })
