@@ -206,6 +206,12 @@ class ListBannerSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'image')
 
 
+class ContactUsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactUs
+        fields = ('__all__')
+
+
 class DetailBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Banner

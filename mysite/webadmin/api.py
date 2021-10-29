@@ -215,6 +215,8 @@ class CartAPIV2(generics.GenericAPIView):
     def patch(self, request):
         id_cart = request.data.get('id_cart')
         cart = Cart.objects.get(id=id_cart)
+        cart_items = CartItems.objects.filter(cart_id=cart)
+        data_menu = request.data.get('menu')
 
         try:
             discount = Discount.objects.get(id=request.data.get('discount'))
@@ -268,21 +270,19 @@ class CartAPIV2(generics.GenericAPIView):
             cart.save()
         cart.save()
 
-        data_menu = request.data.get('menu')
+        print(cart_items)
+        cart_items.delete()
         for i in data_menu:
-            data = CartItems.objects.get(id=i.get('id_cart_item'))
-            if i.get('qty') == 0:
-                data.delete()
-            else:
-                try:
-                    discount = Discount.objects.get(id=i.get('disc'))
-                    data.discount = discount
-                except:
-                    discount = None
-                    data.discount = discount
-                    data.total_disc = 0
-                data.qty = i.get('qty')
-                data.save()
+            cart_item = CartItemsSerializer(data={
+                'cart': id_cart,
+                'menu': i.get('idmenu'),
+                'qty': i.get('qty'),
+                'discount': i.get('dics')
+
+            })
+            cart_item.is_valid(raise_exception=True)
+            cart_item.save()
+        print(cart_items)
 
         return JsonResponse({
             'msg': "Data successfull updated",
@@ -1549,3 +1549,19 @@ class Subs(generics.GenericAPIView):
             'status_code': status_code,
             'msg': msg,
         })
+
+
+class ContactUsApi(generics.GenericAPIView):
+    def get(self, request):
+        contact_us = ContactUs.objects.all()
+
+        data_contact_us = ContactUsSerializer(contact_us, many=True).data
+        msg = "Success Found Data Contact Us"
+        status_code = status.HTTP_200_OK
+
+        return JsonResponse({
+            'msg': msg,
+            'status_code': status_code,
+            'data': data_contact_us
+        })
+

@@ -107,3 +107,32 @@ class DetailBanner(generics.GenericAPIView):
             'status_code': status_code,
             'data': data_banner
         })
+
+
+class CheckSubs(generics.GenericAPIView):
+    def get(self, request):
+        id_toko = request.GET.get('id_toko')
+
+        toko = Toko.objects.get(id=id_toko)
+        owner_toko = toko.account_set.get(is_owner=1)
+        status_subs = owner_toko.is_subs
+
+        if status_subs is None:
+            status_subs = False
+        else:
+            status_subs = True
+
+        if status_subs is True:
+            active_untill = owner_toko.subs_date
+        else:
+            active_untill = None
+
+        msg = "Success found data"
+        status_code = status.HTTP_200_OK
+
+        return JsonResponse({
+            'msg': msg,
+            'status_code': status_code,
+            'status_subs': status_subs,
+            'active_untill': active_untill,
+        })

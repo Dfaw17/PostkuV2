@@ -198,5 +198,7 @@ urlpatterns = [
     path('api/v2/cartitem', api.CartItemAPIV2.as_view()),
 
     path('api/channel_payment', api.ChannelPayments.as_view()),
+    path('api/check_subscribtion', beranda.CheckSubs.as_view()),
+    path('api/contact_us', api.ContactUsApi.as_view()),
 
 ]

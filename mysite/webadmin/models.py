@@ -211,7 +211,7 @@ class Menu(models.Model):
 class ChanelPayment(models.Model):
     jenis_pembayaran = models.CharField(max_length=255, null=True, blank=True)
     nama = models.CharField(max_length=255, null=True, blank=True)
-    nomer = models.CharField(max_length=255,null=True, blank=True)
+    nomer = models.CharField(max_length=255, null=True, blank=True)
     logo = models.ImageField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -253,7 +253,7 @@ class Cart(models.Model):
     label_order = models.ForeignKey(LabelOrder, on_delete=models.CASCADE, null=True, blank=True)
     table = models.ForeignKey(TableManagement, on_delete=models.CASCADE, null=True, blank=True)
     pelanggan = models.ForeignKey(Pelanggan, on_delete=models.CASCADE, null=True, blank=True)
-    service_fee = models.ManyToManyField(ServiceFee, blank=True, null=True)
+    service_fee = models.ManyToManyField(ServiceFee)
     ordered = models.BooleanField(default=False)
     total_price = models.FloatField(default=0, null=True, blank=True)
     total_disc = models.FloatField(default=0, null=True, blank=True)
@@ -526,6 +526,17 @@ class TrxSubs(models.Model):
 
     def __str__(self):
         return self.ref_id
+
+
+class ContactUs(models.Model):
+    label = models.CharField(max_length=255, null=False, blank=False, )
+    value = models.CharField(max_length=255, null=False, blank=False, )
+    url = models.CharField(max_length=255, null=False, blank=False, )
+    image = models.ImageField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.label
 
 
 # =========================================== SIGNAL ===========================================
