@@ -8,10 +8,12 @@ from django.core.exceptions import *
 from rest_framework import status
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
+
 global xnd_prod, xnd_dev
 
 xnd_prod = "xnd_production_nfjAk6kENINyOobuWaOujS3aqfT4LwqW8rzAsvwBOSqD28tjJGYTsQRTqZakEPT"
 xnd_dev = "xnd_development_27A0zquDKjORXcsXvv3XEnX00BBlwVlR97ZFQIfbA8TPNrZDa4VFaSzIDBUeem"
+
 
 class XenditQris(generics.GenericAPIView):
     permission_classes = [AllowAny]
@@ -24,37 +26,43 @@ class XenditQris(generics.GenericAPIView):
         xendit_instance = Xendit(api_key=api_key)
         QRCode = xendit_instance.QRCode
 
-        qriss = QRCode.create(
-            external_id=cart_code,
-            type=QRCodeType.DYNAMIC,
-            callback_url="http://13.213.192.212:8000/api/qris/callback",
-            amount=amount,
-        )
+        try:
+            qriss = QRCode.create(
+                external_id=cart_code,
+                type=QRCodeType.DYNAMIC,
+                callback_url="http://13.213.192.212:8000/api/qris/callback",
+                amount=amount,
+            )
+            # sample_string = qriss.qr_string
+            # sample_string_bytes = sample_string.encode("ascii")
+            #
+            # base64_bytes = base64.b64encode(sample_string_bytes)
+            # base64_string = base64_bytes.decode("ascii")
 
-        sample_string = qriss.qr_string
-        sample_string_bytes = sample_string.encode("ascii")
-
-        base64_bytes = base64.b64encode(sample_string_bytes)
-        base64_string = base64_bytes.decode("ascii")
-
-        datas = {
-            "id": qriss.id,
-            "external_id": qriss.external_id,
-            "amount": qriss.amount,
-            "description": "",
-            "qr_string": qriss.qr_string,
-            "callback_url": qriss.callback_url,
-            "type": qriss.type,
-            "status": qriss.status,
-            "created": qriss.created,
-            "updated": qriss.updated,
-            "metadata": None
-        }
+            datas = {
+                "id": qriss.id,
+                "external_id": qriss.external_id,
+                "amount": qriss.amount,
+                "description": "",
+                "qr_string": qriss.qr_string,
+                "callback_url": qriss.callback_url,
+                "type": qriss.type,
+                "status": qriss.status,
+                "created": qriss.created,
+                "updated": qriss.updated,
+                "metadata": None
+            }
+            msg = 'Data successfull created'
+            status_code = status.HTTP_201_CREATED
+        except:
+            msg = 'data duplicated, externa_id must be uniqe'
+            status_code = status.HTTP_400_BAD_REQUEST
+            datas = None
 
         return JsonResponse({
-            'msg': 'Data successfull created',
-            'status_code': status.HTTP_201_CREATED,
-            'base_64': base64_string,
+            'msg': msg,
+            'status_code': status_code,
+            # 'base_64': base64_string,
             'data': datas,
         })
 
