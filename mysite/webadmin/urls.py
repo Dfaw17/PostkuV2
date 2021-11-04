@@ -97,6 +97,7 @@ urlpatterns = [
 
     path('api/updateowner', api.UpdateProfileOwner.as_view()),
     path('api/updatepegawai', api.UpdateProfilePegawai.as_view()),
+    path('api/delete_pegawai', api.DeletedPegawai.as_view()),
     path('api/account/', api.DetailAccount.as_view()),
 
     path('api/toko', toko.CRUDToko.as_view()),

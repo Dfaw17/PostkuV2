@@ -136,6 +136,20 @@ class UpdateProfileOwner(generics.GenericAPIView):
         })
 
 
+class DeletedPegawai(generics.GenericAPIView):
+
+    def put(self, request):
+        id_user = request.data.get('id_user')
+        akun = Account.objects.get(id=id_user)
+        akun.is_deleted = True
+        akun.save()
+
+        return JsonResponse({
+            'msg': 'Data successfull deleted',
+            'status_code': status.HTTP_200_OK,
+        })
+
+
 class UpdateProfilePegawai(generics.GenericAPIView):
 
     def put(self, request):

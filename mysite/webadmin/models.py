@@ -80,6 +80,7 @@ class Account(models.Model):
     jenis_bank = models.CharField(max_length=255, null=True, blank=True)
     profile_pic = models.ImageField(null=True, blank=True)
     rekening_book_pic = models.ImageField(null=True, blank=True)
+    is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
