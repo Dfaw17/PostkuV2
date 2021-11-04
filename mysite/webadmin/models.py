@@ -253,7 +253,7 @@ class Cart(models.Model):
     label_order = models.ForeignKey(LabelOrder, on_delete=models.CASCADE, null=True, blank=True)
     table = models.ForeignKey(TableManagement, on_delete=models.CASCADE, null=True, blank=True)
     pelanggan = models.ForeignKey(Pelanggan, on_delete=models.CASCADE, null=True, blank=True)
-    service_fee = models.ManyToManyField(ServiceFee)
+    service_fee = models.ManyToManyField(ServiceFee, null=True, blank=True)
     ordered = models.BooleanField(default=False)
     total_price = models.FloatField(default=0, null=True, blank=True)
     total_disc = models.FloatField(default=0, null=True, blank=True)

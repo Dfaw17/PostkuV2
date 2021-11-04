@@ -115,20 +115,26 @@ class CheckSubs(generics.GenericAPIView):
 
         toko = Toko.objects.get(id=id_toko)
         owner_toko = toko.account_set.get(is_owner=1)
-        status_subs = owner_toko.is_subs
+        subs_date = owner_toko.subs_date
+        status_subs = subs_date.date()
+        today = datetime.now().date()
 
         if status_subs is None:
             status_subs = False
-        else:
-            status_subs = True
-
-        if status_subs is True:
-            active_untill = owner_toko.subs_date
-        else:
             active_untill = None
-
-        msg = "Success found data"
-        status_code = status.HTTP_200_OK
+            msg = "Success found data"
+            status_code = status.HTTP_404_NOT_FOUND
+        else:
+            if status_subs < today:
+                status_subs = False
+                active_untill = None
+                msg = "Success found data"
+                status_code = status.HTTP_404_NOT_FOUND
+            else:
+                status_subs = True
+                active_untill = owner_toko.subs_date
+                msg = "Success found data"
+                status_code = status.HTTP_200_OK
 
         return JsonResponse({
             'msg': msg,

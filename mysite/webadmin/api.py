@@ -392,6 +392,48 @@ class CartAPIDetail(APIView):
         data_cart = CartSerializer(cart).data
         data_cart_items = CartItemsSerializer(cart_items, many=True).data
 
+        if cart.pajak != None:
+            pajak = Pajak.objects.get(id=cart.pajak.id)
+            data_pajak = PajakSerializer(pajak).data
+        else:
+            data_pajak = None
+
+        if cart.service_fee != None:
+            service_fee = cart.service_fee.all()
+            data_sf = ServiceFeeSerializer(service_fee, many=True).data
+        else:
+            data_sf = None
+
+        if cart.discount != None:
+            disc = Discount.objects.get(id=cart.discount.id)
+            data_disc = DiscountSerializer(disc).data
+        else:
+            data_disc = None
+
+        if cart.tipe_order != None:
+            tipe_order = OrderType.objects.get(id=cart.tipe_order.id)
+            data_tipe_order = TipeOrderSerializer(tipe_order).data
+        else:
+            data_tipe_order = None
+
+        if cart.label_order != None:
+            label_order = LabelOrder.objects.get(id=cart.label_order.id)
+            data_label_order = LabelOrderSerializer(label_order).data
+        else:
+            data_label_order = None
+
+        if cart.table != None:
+            table = TableManagement.objects.get(id=cart.table.id)
+            data_table = TableManagementSerializer(table).data
+        else:
+            data_table = None
+
+        if cart.pelanggan != None:
+            pelanggan = Pelanggan.objects.get(id=cart.pelanggan.id)
+            data_pelanggan = PelangganSerializer(pelanggan).data
+        else:
+            data_pelanggan = None
+
         msg = "Success found data"
         status_code = status.HTTP_200_OK
 
@@ -400,6 +442,13 @@ class CartAPIDetail(APIView):
             'status_code': status_code,
             'data_cart': data_cart,
             'data_cart_items': data_cart_items,
+            'data_pajak': data_pajak,
+            'data_service_fee': data_sf,
+            'data_disc': data_disc,
+            'data_tipe_order': data_tipe_order,
+            'data_label_order': data_label_order,
+            'data_table': data_table,
+            'data_pelanggan': data_pelanggan,
             'jumlah_items': data_cart.get('total_item'),
         })
 
