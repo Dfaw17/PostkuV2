@@ -126,6 +126,7 @@ class CheckSubs(generics.GenericAPIView):
             status_code = status.HTTP_404_NOT_FOUND
         else:
             try:
+                status_subs = subs_date.date()
                 if status_subs < today:
                     status_subs = False
                     active_untill = None
