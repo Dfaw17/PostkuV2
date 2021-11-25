@@ -71,19 +71,30 @@ class Login(APIView):
         r = requests.post('http://localhost:8000/api/token', data={'username': username, 'password': password})
         token = r.json().get('access')
 
-        if token != None:
+        if token is not None:
             detail_user = Account.objects.get(username=username)
-            data_detail_akun = ExtendsUserSerializer(detail_user).data
-            msg = 'Success Login'
-            status_code = status.HTTP_200_OK
+
+            if detail_user.is_deleted is False:
+                data_detail_akun = ExtendsUserSerializer(detail_user).data
+                msg = 'Success Login'
+                status_code = status.HTTP_200_OK
+                tokens = token
+            else:
+                msg = 'Failed Login User Telah Dihapus'
+                data_detail_akun = None
+                status_code = status.HTTP_404_NOT_FOUND
+                tokens = None
         else:
             msg = 'Failed Login'
             data_detail_akun = None
             status_code = status.HTTP_404_NOT_FOUND
+            tokens = None
+
+        print()
         return JsonResponse({
             'status_code': status_code,
             'msg': msg,
-            'token': token,
+            'token': tokens,
             'data_akun': data_detail_akun
         })
 
@@ -1565,48 +1576,52 @@ class Subs(generics.GenericAPIView):
         wallet_id = request.data.get('wallet_id')
         date_subs = request.data.get('date_subs')
 
-        get_wallet = WalletToko.objects.get(id=wallet_id)
-        get_wallet_balance = get_wallet.balance
-
-        subs_price = int(date_subs) * 1000
-
-        data_account = Account.objects.get(id=account_id)
-        check_sub = data_account.is_subs
-
-        if check_sub == 1:
+        if date_subs == '0':
             status_code = status.HTTP_400_BAD_REQUEST
-            msg = 'Kamu Sedang Dalam Masa Subscribtion'
+            msg = 'Request Subs Minimal 1 Hari'
         else:
-            if float(get_wallet_balance) < subs_price:
+            get_wallet = WalletToko.objects.get(id=wallet_id)
+            get_wallet_balance = get_wallet.balance
+
+            subs_price = int(date_subs) * 1000
+
+            data_account = Account.objects.get(id=account_id)
+            check_sub = data_account.is_subs
+
+            if check_sub == 1:
                 status_code = status.HTTP_400_BAD_REQUEST
-                msg = 'Wallet Balance Tidak Mencukupi'
+                msg = 'Kamu Sedang Dalam Masa Subscribtion'
             else:
-                # create wallet trx
-                years = datetime.today().strftime('%Y')
-                mounth = datetime.today().strftime('%m')
-                day = datetime.today().strftime('%d')
-                hours = datetime.today().strftime('%H')
-                munites = datetime.today().strftime('%M')
-                seconds = datetime.today().strftime('%S')
-                notes = f'Wallet {get_wallet.wallet_code} Success Credit Balance Rp.{subs_price} For Subs POSTKU For {date_subs} Days at {years}-{mounth}-{day} {hours}:{munites}:{seconds}'
+                if float(get_wallet_balance) < subs_price:
+                    status_code = status.HTTP_400_BAD_REQUEST
+                    msg = 'Wallet Balance Tidak Mencukupi'
+                else:
+                    # create wallet trx
+                    years = datetime.today().strftime('%Y')
+                    mounth = datetime.today().strftime('%m')
+                    day = datetime.today().strftime('%d')
+                    hours = datetime.today().strftime('%H')
+                    munites = datetime.today().strftime('%M')
+                    seconds = datetime.today().strftime('%S')
+                    notes = f'Wallet {get_wallet.wallet_code} Success Credit Balance Rp.{subs_price} For Subs POSTKU For {date_subs} Days at {years}-{mounth}-{day} {hours}:{munites}:{seconds}'
 
-                trx_wallet = TrxWallet(wallet_code=get_wallet.wallet_code, type=2, adjustment_balance=subs_price,
-                                       note=notes,
-                                       wallet_id=get_wallet.id)
-                trx_wallet.save()
+                    trx_wallet = TrxWallet(wallet_code=get_wallet.wallet_code, type=2, adjustment_balance=subs_price,
+                                           note=notes,
+                                           wallet_id=get_wallet.id)
+                    trx_wallet.save()
 
-                # create SUBS trx
-                trx_subs = TrxSubs(date_subs=date_subs, account_id=account_id, invoice=subs_price)
-                trx_subs.save()
+                    # create SUBS trx
+                    trx_subs = TrxSubs(date_subs=date_subs, account_id=account_id, invoice=subs_price)
+                    trx_subs.save()
 
-                a = data_account.toko.all()
-                for i in a:
-                    data_accounts = i.account_set.all()
-                    data_accounts.update(is_subs=1)
-                    data_accounts.update(subs_date=datetime.today() + timedelta(days=int(date_subs)))
+                    a = data_account.toko.all()
+                    for i in a:
+                        data_accounts = i.account_set.all()
+                        data_accounts.update(is_subs=1)
+                        data_accounts.update(subs_date=datetime.today() + timedelta(days=int(date_subs)))
 
-                status_code = status.HTTP_200_OK
-                msg = 'Success Created Subs Trx'
+                    status_code = status.HTTP_200_OK
+                    msg = 'Success Created Subs Trx'
 
         return JsonResponse({
             'status_code': status_code,
