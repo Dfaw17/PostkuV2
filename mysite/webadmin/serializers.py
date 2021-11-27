@@ -37,17 +37,17 @@ class MenuSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 
-class CustomMenuSerializer(serializers.ModelSerializer):
-    kategori = serializers.SlugRelatedField(read_only=True, slug_field='label')
-
-    class Meta:
-        model = Menu
-        fields = ('__all__')
-
-
 class KategoriMenuSerializer(serializers.ModelSerializer):
     class Meta:
         model = KategoriMenu
+        fields = ('__all__')
+
+
+class CustomMenuSerializer(serializers.ModelSerializer):
+    kategori = KategoriMenuSerializer(many=False, read_only=False)
+
+    class Meta:
+        model = Menu
         fields = ('__all__')
 
 

@@ -39,26 +39,48 @@ class Register(generics.GenericAPIView):
 
         serializer = RegisterSerializer(data=request.data)
         serializerextenduser = ExtendsUserSerializer(data=request.data)
-        if serializerextenduser.is_valid(raise_exception=True):
-            if serializer.is_valid(raise_exception=True):
-                serializerextenduser.save()
-                serializer.save()
+        try:
+            if serializerextenduser.is_valid(raise_exception=True):
+                if serializer.is_valid(raise_exception=True):
+                    serializerextenduser.save()
+                    serializer.save()
 
-                content_user = User.objects.raw(f'SELECT * FROM auth_user WHERE email="{email}"')
-                for i in content_user:
-                    id_user = i.id
-                c.execute(f'UPDATE webadmin_account SET user_id="{id_user}" WHERE email="{email}"')
-                r = requests.post('http://localhost:8000/api/token', data={'username': username, 'password': password})
-                token = r.json().get('access')
-                detail_user = Account.objects.get(username=username)
-                data_detail_akun = ExtendsUserSerializer(detail_user).data
+                    content_user = User.objects.raw(f'SELECT * FROM auth_user WHERE email="{email}"')
+                    for i in content_user:
+                        id_user = i.id
+                    c.execute(f'UPDATE webadmin_account SET user_id="{id_user}" WHERE email="{email}"')
+                    r = requests.post('http://localhost:8000/api/token',
+                                      data={'username': username, 'password': password})
+                    token = r.json().get('access')
+                    detail_user = Account.objects.get(username=username)
+                    data_detail_akun = ExtendsUserSerializer(detail_user).data
 
-                return JsonResponse({
-                    'msg': "Data successfull created",
-                    'status_code': '201',
-                    'user': data_detail_akun,
-                    'token': token,
-                })
+                    msg = "Data successfull created"
+                    status_code = status.HTTP_201_CREATED
+                    data = data_detail_akun
+                    tokens = token
+                else:
+                    msg = "Username atau email telah digunakan"
+                    status_code = status.HTTP_400_BAD_REQUEST
+                    data = None
+                    tokens = None
+            else:
+                msg = "Username atau email telah digunakan"
+                status_code = status.HTTP_400_BAD_REQUEST
+                data = None
+                tokens = None
+        except:
+            msg = "Username atau email telah digunakan"
+            status_code = status.HTTP_400_BAD_REQUEST
+            data = None
+            tokens = None
+
+        return JsonResponse({
+            'msg': msg,
+            'status_code': status_code,
+            'user': data,
+            'token': tokens,
+        })
 
 
 class Login(APIView):
@@ -1642,4 +1664,3 @@ class ContactUsApi(generics.GenericAPIView):
             'status_code': status_code,
             'data': data_contact_us
         })
-
