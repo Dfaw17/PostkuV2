@@ -13,12 +13,12 @@ class CRUDMenu(generics.GenericAPIView):
         id_kategori = request.GET.get('id_kategori')
 
         if id_kategori == None:
-            menu = Menu.objects.filter(toko=id_toko)
+            menu = Menu.objects.filter(toko=id_toko, is_active=True)
             data_menu_toko = CustomMenuSerializer(menu, many=True).data
             msg = "Success found data"
             status_code = status.HTTP_200_OK
         else:
-            menu = Menu.objects.filter(toko=id_toko, kategori=id_kategori)
+            menu = Menu.objects.filter(toko=id_toko, kategori=id_kategori, is_active=True)
             data_menu_toko = CustomMenuSerializer(menu, many=True).data
             msg = "Success found data"
             status_code = status.HTTP_200_OK
