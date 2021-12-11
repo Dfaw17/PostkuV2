@@ -1447,7 +1447,7 @@ class WalletsToko(generics.GenericAPIView):
 
         return JsonResponse({
             'msg': msg,
-            'status': status_code,
+            'status_code': status_code,
             'data': data,
         })
 

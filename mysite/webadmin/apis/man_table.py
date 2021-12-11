@@ -28,7 +28,7 @@ class CRUDTableManagement(generics.GenericAPIView):
 
         return JsonResponse({
             'msg': "Data successfull created",
-            'status': status.HTTP_201_CREATED,
+            'status_code': status.HTTP_201_CREATED,
             'data': serializer.data,
         })
 
