@@ -402,6 +402,12 @@ class CartAPI(generics.GenericAPIView):
         try:
             cart = Cart.objects.get(id=id_cart)
             cart.delete()
+            try:
+                table = TableManagement.objects.get(id=cart.table.id)
+                table.is_booked = 0
+                table.save()
+            except:
+                print("")
             msg = "Data successfull deleted"
             resp_code = status.HTTP_200_OK
         except ObjectDoesNotExist:
