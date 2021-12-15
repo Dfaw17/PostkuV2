@@ -1,9 +1,13 @@
+import requests
+import json
+
 from django.db.models import Count
 from django.shortcuts import *
 from django.contrib.auth.decorators import login_required
 from ..forms import *
 from datetime import *
 import locale
+import hashlib
 
 locale.setlocale(locale.LC_ALL, '')
 
@@ -244,6 +248,21 @@ def home(requets):
     else:
         total_trx_subs = trx_subs.get('invoice__sum')
 
+    username = "mefeyeorX4yW"
+    password = "85597426-90a0-50cb-85d0-a82bd1f64bdd"
+    signature = hashlib.md5((username + password + "depo").encode()).hexdigest()
+
+    data = {
+        'cmd': 'deposit',
+        'username': f'{username}',
+        'sign': f'{signature}'
+    }
+
+    url = "https://api.digiflazz.com/v1/cek-saldo"
+    headers = {'content-type': 'application/json'}
+
+    balance_wallet = requests.post(url, data=json.dumps(data), headers=headers).json().get('data')['deposit']
+
     context = {
         'total_account': total_account,
         'total_toko': total_toko,
@@ -267,6 +286,7 @@ def home(requets):
         'chart_subs': chart_subs,
         'chart_type_trx': chart_type_trx,
         'chart_brand_ppob': chart_brand_ppob,
+        'balance_wallet': balance_wallet,
         'total_nett_income': total_difference_ppob + total_revenue_postku + total_trx_subs,
     }
     return render(requets, 'webadmin/index.html', context)
