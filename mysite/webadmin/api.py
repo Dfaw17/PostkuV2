@@ -883,7 +883,7 @@ class InsertDiscountCartItem(generics.GenericAPIView):
 
     def delete(self, request):
         try:
-            id_cart_item = request.POST.get('id_cart_items')
+            id_cart_item = request.GET.get('id_cart_items')
             print(id_cart_item)
             cart_item = CartItems.objects.get(id=id_cart_item)
             cart_item.discount_id = None
