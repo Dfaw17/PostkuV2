@@ -149,7 +149,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'postku.id@gmail.com'
-EMAIL_HOST_PASSWORD = '_Dfawwaz17_@'
+EMAIL_HOST_PASSWORD = '_Fawwaz170901_@'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
