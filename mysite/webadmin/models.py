@@ -801,7 +801,7 @@ def correct_price(sender, **kwargs):
     # Transaction->Pajak
     check_pajak = Payment.objects.get(id=transactions.payment_type.id).id
     if check_pajak == 2:
-        transactions.pajak = (float(cart.total_price) * 5) / 100
+        transactions.pajak = (float(cart.grand_total_price) * 5) / 100
     else:
         transactions.pajak = 0
 
