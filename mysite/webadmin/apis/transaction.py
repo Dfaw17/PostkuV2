@@ -3,6 +3,8 @@ from django.http import *
 from django.core.exceptions import *
 from rest_framework import status
 from rest_framework import generics
+import datetime
+
 
 class Transactions(generics.GenericAPIView):
 
@@ -39,12 +41,16 @@ class Transactions(generics.GenericAPIView):
         id_toko = request.GET.get('id_toko')
         date1 = request.GET.get('date1')
         date2 = request.GET.get('date2')
+        today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
 
         if date1 and date2 != "":
             transaction = Transaction.objects.filter(toko=id_toko, created_at__range=[date1, date2]).order_by(
                 '-created_at')
         else:
-            transaction = Transaction.objects.filter(toko=id_toko).order_by(
+            # transaction = Transaction.objects.filter(toko=id_toko).order_by(
+            #     '-created_at')
+            transaction = Transaction.objects.filter(toko=id_toko, created_at__range=[today_min, today_max]).order_by(
                 '-created_at')
 
         data_trx = TransactionSerializer(transaction, many=True).data
@@ -83,6 +89,7 @@ class Transactions(generics.GenericAPIView):
         return JsonResponse({
             'msg': msg,
         })
+
 
 class DetailTransactions(generics.GenericAPIView):
 

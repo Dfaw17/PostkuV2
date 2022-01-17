@@ -857,6 +857,7 @@ def correct_price(sender, **kwargs):
             TrxStockMenu.objects.create(
                 nama=nama,
                 type_adjustment=4,
+                note=f'Penjualan item pada transaksi {transactions.reff_code}, tanggal {transactions.created_at}',
                 adjustment_stock=adjustment_stock,
                 stock_id=stock_id,
 
