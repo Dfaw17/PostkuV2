@@ -784,9 +784,10 @@ def correct_total_price_cart(sender, **kwargs):
 
     cart = Cart.objects.get(id=cart_items.cart.id)
     a = CartItems.objects.filter(cart_id=cart_items.cart.id).aggregate(Sum('price'))
-    b = CartItems.objects.filter(cart_id=cart_items.cart.id).count()
+    # b = CartItems.objects.filter(cart_id=cart_items.cart.id).count()
+    b = CartItems.objects.filter(cart_id=cart_items.cart.id).aggregate(Sum('qty'))
     cart.total_price = a.get("price__sum")
-    cart.total_item = b
+    cart.total_item = b.get("qty__sum")
     cart.save()
 
 
