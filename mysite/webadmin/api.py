@@ -55,6 +55,12 @@ class Register(generics.GenericAPIView):
                     detail_user = Account.objects.get(username=username)
                     data_detail_akun = ExtendsUserSerializer(detail_user).data
 
+                    # FREE POSTKUPLUS
+                    data_account = Account.objects.get(id=data_detail_akun.get('id'))
+                    data_account.is_subs = 1
+                    data_account.subs_date = datetime.today() + timedelta(days=int(365))
+                    data_account.save()
+
                     msg = "Data successfull created"
                     status_code = status.HTTP_201_CREATED
                     data = data_detail_akun
@@ -112,7 +118,6 @@ class Login(APIView):
             status_code = status.HTTP_404_NOT_FOUND
             tokens = None
 
-        print()
         return JsonResponse({
             'status_code': status_code,
             'msg': msg,
@@ -1185,20 +1190,29 @@ class DIGI(generics.GenericAPIView):
             headers = {'content-type': 'application/json'}
 
             datas = requests.post(url, data=json.dumps(data), headers=headers).json()
-            print(datas)
+            print(datas.get('data')['message'])
 
-            # create ppob trx
-            stat = datas.get('data')['status']
-            ref_id = datas.get('data')['ref_id']
-            buyer_last_saldo = datas.get('data')['buyer_last_saldo']
-            price = datas.get('data')['price']
-            trx_ppob = PPOBPrepaidTransaction(ref_id=ref_id, customer_no=customer_no, buyer_sku_code=buyer_sku_code,
-                                              message=message,
-                                              status=stat, price=price, buyer_last_saldo=buyer_last_saldo,
-                                              price_postku=get_product_price, toko_id=get_wallet_toko, wallet_id=wallet,
-                                              product_name=get_product_name, category=get_product_category,
-                                              brand=get_product_brand, desc=get_product_desc)
-            trx_ppob.save()
+            if datas.get('data')['message'] == "Saldo tidak cukup":
+                notes_failed = f'Success Refund Wallet {get_wallet.wallet_code} Rp.{get_product_price} For Failed Purchase PPOB Product {get_product_name} at {years}-{mounth}-{day} {hours}:{munites}:{seconds}'
+
+                trx_wallet = TrxWallet(wallet_code=get_wallet.wallet_code, type=3, adjustment_balance=get_product_price,
+                                       note=notes_failed,
+                                       wallet_id=get_wallet.id)
+                trx_wallet.save()
+            else:
+                # create ppob trx
+                stat = datas.get('data')['status']
+                ref_id = datas.get('data')['ref_id']
+                buyer_last_saldo = datas.get('data')['buyer_last_saldo']
+                price = datas.get('data')['price']
+                trx_ppob = PPOBPrepaidTransaction(ref_id=ref_id, customer_no=customer_no, buyer_sku_code=buyer_sku_code,
+                                                  message=message,
+                                                  status=stat, price=price, buyer_last_saldo=buyer_last_saldo,
+                                                  price_postku=get_product_price, toko_id=get_wallet_toko,
+                                                  wallet_id=wallet,
+                                                  product_name=get_product_name, category=get_product_category,
+                                                  brand=get_product_brand, desc=get_product_desc)
+                trx_ppob.save()
 
         return JsonResponse({
             'msg': msg,

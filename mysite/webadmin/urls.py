@@ -87,7 +87,7 @@ urlpatterns = [
     path('subs', views.subs, name='subs'),
     path('subs/sync', views.sync_subs, name='sync_subs'),
 
-    # ======================================API================================
+    # ============================================================================API======================================================================
 
     path('api/token', TokenObtainPairView.as_view()),
     path('api/token/refresh', TokenRefreshView.as_view()),
