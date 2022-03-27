@@ -17,7 +17,7 @@ def toko(requets):
 
 @login_required(login_url='login')
 def detail_toko(requets, id):
-    toko = Toko.objects.get(id=1)
+    toko = Toko.objects.get(id=id)
     menu = Menu.objects.filter(toko_id=id, is_active=1)
     owner = toko.account_set.get(is_owner=1)
     pegawai = toko.account_set.filter(is_owner=0)
