@@ -66,7 +66,7 @@ class Article(models.Model):
 
 
 class Account(models.Model):
-    username = models.CharField(max_length=255, unique=True, null=False, blank=False, validators=[validate_at_value])
+    username = models.CharField(max_length=255, unique=True, null=False, blank=False)
     email = models.CharField(max_length=255, null=True, blank=True, unique=True)
     nama = models.CharField(max_length=255, null=True, blank=True)
     phone = models.BigIntegerField(null=True, blank=True)
